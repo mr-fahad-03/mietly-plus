@@ -1,8 +1,7 @@
 {
-  "version": 2,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/index.js": {
-      "runtime": "nodejs20.x",
       "maxDuration": 60
     }
   },
