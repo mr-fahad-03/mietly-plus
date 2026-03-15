@@ -87,7 +87,9 @@ async function initializeApp() {
   await appInitPromise;
 }
 
+
 function buildAdminToken(admin) {
+
   return jwt.sign(
     {
       sub: String(admin._id),
