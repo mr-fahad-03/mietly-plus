@@ -32,7 +32,7 @@ type CategoryResolutionResult = {
 
 type SheetRow = Record<string, string | number | boolean | null | undefined>;
 
-const REQUIRED_COLUMNS = ["titleEn", "slug", "imageKey", "monthlyPrice"];
+const REQUIRED_COLUMNS = ["titleEn", "slug", "monthlyPrice"];
 const OPTIONAL_RELATION_COLUMNS = ["brand", "brandId", "category", "categoryId", "subcategory", "subcategoryId"];
 
 const TEMPLATE_HEADERS = [
@@ -257,7 +257,6 @@ function mapRowToProduct(row: SheetRow, uploadedImages: Map<string, string>): Bu
 function validateProduct(product: BulkProductInput, rowNumber: number): string | null {
   if (!product.title) return `Row ${rowNumber}: titleEn is required.`;
   if (!product.slug) return `Row ${rowNumber}: slug is required.`;
-  if (!product.imageUrl) return `Row ${rowNumber}: imageKey does not match any uploaded image file.`;
   if (!product.brandId && !product.brand) return `Row ${rowNumber}: brand or brandId is required.`;
   if (!product.categoryId && !product.category && !product.subcategoryId) {
     return `Row ${rowNumber}: category/categoryId (or subcategoryId) is required.`;
@@ -587,7 +586,7 @@ export default function AdminBulkProductsPage() {
       const missing = REQUIRED_COLUMNS.filter((col) => !(col in first));
       if (missing.length) throw new Error(`Missing required columns: ${missing.join(", ")}`);
       setParsedRows(rows);
-      setMessage(`${rows.length} rows parsed. Upload product images and click Import.`);
+      setMessage(`${rows.length} rows parsed. You can import now and add images later from Edit Product.`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not parse file.");
     }
@@ -632,11 +631,6 @@ export default function AdminBulkProductsPage() {
       setError("Upload CSV/Excel file first.");
       return;
     }
-    if (!uploadedImages.size) {
-      setError("Upload product images first.");
-      return;
-    }
-
     setLoading(true);
     setMessage("");
     setError("");
@@ -720,7 +714,7 @@ export default function AdminBulkProductsPage() {
     <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
       <h1 className="text-2xl font-bold text-zinc-900">Add Bulk Products</h1>
       <p className="mt-1 text-sm text-zinc-600">
-        Upload CSV/Excel + upload images separately, then import.
+        Upload CSV/Excel, then import. Images are optional here and can be added later from Edit Product.
       </p>
 
       <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
@@ -730,7 +724,7 @@ export default function AdminBulkProductsPage() {
           Product relation columns: {OPTIONAL_RELATION_COLUMNS.join(", ")}. Use names to auto-create missing brand/category/subcategory.
         </p>
         <p className="mt-2">
-          `imageKey` and `galleryImageKeys` must match uploaded image file names (without extension).
+          `imageKey` and `galleryImageKeys` are optional. If used, they must match uploaded image file names (without extension).
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <button
@@ -771,6 +765,7 @@ export default function AdminBulkProductsPage() {
             className="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-lime-500 file:px-3 file:py-1 file:text-white"
           />
           <p className="mt-1 text-xs text-zinc-600">Mapped images: {imageCount}</p>
+          <p className="mt-1 text-xs text-zinc-500">Skip this step if you want to add images one by one later from product edit.</p>
           {uploadingImages ? <p className="mt-1 text-xs text-zinc-500">Uploading images...</p> : null}
         </div>
       </div>

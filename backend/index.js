@@ -29,6 +29,19 @@ const stripeSecretKey = process.env.STRIPE_SECRET_KEY || "";
 const stripe = stripeSecretKey ? new Stripe(stripeSecretKey) : null;
 const VALID_FULFILLMENT_STATUSES = ["pending", "processing", "shipped", "delivered", "cancelled", "returned"];
 const WEBSITE_CURRENCY = "eur";
+const PRODUCT_IMAGE_PLACEHOLDER =
+  "data:image/svg+xml;charset=UTF-8," +
+  encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+      <rect width="1200" height="900" fill="#f4f4f5"/>
+      <rect x="120" y="120" width="960" height="660" rx="44" fill="#ffffff" stroke="#d4d4d8" stroke-width="12"/>
+      <path d="M330 615l140-160 125 115 170-220 220 265H330z" fill="#d4d4d8"/>
+      <circle cx="470" cy="320" r="62" fill="#cbd5e1"/>
+      <text x="600" y="740" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" fill="#52525b">
+        Product image will be added later
+      </text>
+    </svg>
+  `);
 const hasCloudinaryConfig =
   Boolean(process.env.CLOUDINARY_CLOUD_NAME) &&
   Boolean(process.env.CLOUDINARY_API_KEY) &&
@@ -912,7 +925,7 @@ function mapProduct(product) {
       en: product.shortDescriptionI18n?.en || product.shortDescription || "",
       de: product.shortDescriptionI18n?.de || "",
     },
-    imageUrl: product.imageUrl,
+    imageUrl: product.imageUrl || PRODUCT_IMAGE_PLACEHOLDER,
     galleryImages: product.galleryImages || [],
     sku: product.sku || "",
     tags: product.tags || [],
@@ -1996,9 +2009,9 @@ app.post("/api/admin/products", requireAdminAuth, async (req, res) => {
     isActive = true,
   } = req.body;
 
-  if (!(title || titleI18n?.en) || !slug || !imageUrl || !categoryId || !brandId || monthlyPrice === undefined) {
+  if (!(title || titleI18n?.en) || !slug || !categoryId || !brandId || monthlyPrice === undefined) {
     return res.status(400).json({
-      message: "title (or titleI18n.en), slug, imageUrl, categoryId, brandId, monthlyPrice are required.",
+      message: "title (or titleI18n.en), slug, categoryId, brandId, monthlyPrice are required.",
     });
   }
 
@@ -2052,7 +2065,7 @@ app.post("/api/admin/products", requireAdminAuth, async (req, res) => {
       en: String(shortDescriptionI18n?.en || shortDescription || "").trim(),
       de: String(shortDescriptionI18n?.de || "").trim(),
     },
-    imageUrl: String(imageUrl).trim(),
+    imageUrl: String(imageUrl || "").trim() || PRODUCT_IMAGE_PLACEHOLDER,
     galleryImages: Array.isArray(galleryImages) ? galleryImages.filter(Boolean).map(String) : [],
     sku: String(sku).trim(),
     brand: brandRecord.name,
