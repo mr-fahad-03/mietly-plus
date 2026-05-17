@@ -6,18 +6,18 @@ import { useSiteLocale } from "@/lib/use-site-locale";
 
 const copy = {
   en: {
-    eyebrow: "LeihflussPlus Highlights",
+    eyebrow: "Leihfluss Highlights",
     title: "Built for flexible modern living",
     cta: "Learn more",
     cards: [
       {
         title: "How it works",
-        text: "LeihflussPlus gives you access to the products you need without the pressure of a permanent purchase.",
+        text: "Leihfluss gives you access to the products you need without the pressure of a permanent purchase.",
         href: "/info/how-it-works",
       },
       {
         title: "Great Condition Promise",
-        text: "Every LeihflussPlus product is checked and prepared before delivery for confident everyday use.",
+        text: "Every Leihfluss product is checked and prepared before delivery for confident everyday use.",
         href: "/info/great-condition-promise",
       },
       {
@@ -33,18 +33,18 @@ const copy = {
     ],
   },
   de: {
-    eyebrow: "LeihflussPlus Highlights",
+    eyebrow: "Leihfluss Highlights",
     title: "Für flexibles modernes Leben gebaut",
     cta: "Mehr erfahren",
     cards: [
       {
         title: "So funktioniert’s",
-        text: "Mit LeihflussPlus nutzt du Produkte flexibel, ohne sie dauerhaft kaufen zu müssen. Einfach, flexibel und alltagstauglich.",
+        text: "Mit Leihfluss nutzt du Produkte flexibel, ohne sie dauerhaft kaufen zu müssen. Einfach, flexibel und alltagstauglich.",
         href: "/info/how-it-works",
       },
       {
         title: "Unser Qualitätsversprechen",
-        text: "Jedes Produkt von LeihflussPlus wird vor dem Versand geprüft und vorbereitet. So stellen wir sicher, dass unsere Mietprodukte unseren Funktions- und Qualitätsstandards entsprechen.",
+        text: "Jedes Produkt von Leihfluss wird vor dem Versand geprüft und vorbereitet. So stellen wir sicher, dass unsere Mietprodukte unseren Funktions- und Qualitätsstandards entsprechen.",
         href: "/info/great-condition-promise",
       },
       {
@@ -54,7 +54,7 @@ const copy = {
       },
       {
         title: "Nachhaltigkeit",
-        text: "LeihflussPlus ermöglicht einen bewussteren Konsum, indem hochwertige Produkte länger sinnvoll genutzt, gepflegt und mehrfach eingesetzt werden.",
+        text: "Leihfluss ermöglicht einen bewussteren Konsum, indem hochwertige Produkte länger sinnvoll genutzt, gepflegt und mehrfach eingesetzt werden.",
         href: "/info/sustainability",
       },
     ],

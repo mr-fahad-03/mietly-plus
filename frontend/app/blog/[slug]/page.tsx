@@ -28,7 +28,7 @@ function fallbackTitle(post: BlogPost) {
 }
 
 function fallbackDescription(post: BlogPost) {
-  return post.excerptI18n.en || post.excerptI18n.de || "LeihflussPlus blog post";
+  return post.excerptI18n.en || post.excerptI18n.de || "Leihfluss blog post";
 }
 
 export async function generateMetadata({
@@ -40,7 +40,7 @@ export async function generateMetadata({
   const post = await getBlogBySlug(resolved.slug);
   if (!post) {
     return {
-      title: "Blog Post | LeihflussPlus",
+      title: "Blog Post | Leihfluss",
       robots: {
         index: false,
         follow: false,

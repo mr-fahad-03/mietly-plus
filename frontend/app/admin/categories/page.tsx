@@ -307,7 +307,7 @@ export default function AdminCategoriesPage() {
                   <input
                     value={form.seoCanonicalUrl}
                     onChange={(e) => setForm((prev) => ({ ...prev, seoCanonicalUrl: e.target.value }))}
-                    placeholder="https://leihflussplus.de/shop?category=example"
+                    placeholder="https://leihfluss.de/shop?category=example"
                     className="w-full rounded-lg border border-zinc-300 px-3 py-2 outline-none focus:border-lime-500"
                   />
                 </label>

@@ -63,13 +63,13 @@ const productNotesCopy = {
     delivery: "Final delivery costs are shown at checkout.",
     verification: "Verification may be required for selected products based on value, category, or risk profile.",
     rentalPeriod: "Minimum rental period depends on the product category. Rentals start from 7 days.",
-    rentalUseNotice: "This product is provided for temporary use and remains in LeihflussPlus inventory.",
+    rentalUseNotice: "This product is provided for temporary use and remains in Leihfluss inventory.",
   },
   de: {
     delivery: "Die finalen Versandkosten werden im Checkout angezeigt.",
     verification: "Für ausgewählte Produkte kann abhängig von Wert, Kategorie oder Risikoprofil eine Verifizierung erforderlich sein.",
     rentalPeriod: "Die Mindestmietdauer hängt von der Produktkategorie ab. Vermietungen starten ab 7 Tagen.",
-    rentalUseNotice: "Dieses Produkt wird dir zur zeitweisen Nutzung überlassen und bleibt im Bestand von LeihflussPlus.",
+    rentalUseNotice: "Dieses Produkt wird dir zur zeitweisen Nutzung überlassen und bleibt im Bestand von Leihfluss.",
   },
 };
 

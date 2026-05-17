@@ -31,9 +31,9 @@ const slugAliases: Record<string, string> = {
 const pages: Record<string, LocalizedInfoPage> = {
   "how-it-works": {
     en: {
-      title: "How LeihflussPlus Works",
+      title: "How Leihfluss Works",
       intro: [
-        "LeihflussPlus gives customers access to useful products without long-term purchase commitment.",
+        "Leihfluss gives customers access to useful products without long-term purchase commitment.",
         "Browse, choose your plan, receive your product, and return it when no longer needed.",
       ],
       sections: [
@@ -42,13 +42,13 @@ const pages: Record<string, LocalizedInfoPage> = {
         { heading: "3. Verification when needed", paragraphs: ["For selected products, verification or security hold may apply before confirmation."] },
         { heading: "4. Delivery and handover", paragraphs: ["After confirmation, products are prepared and delivered via reliable shipping partners."] },
         { heading: "5. Use without long-term commitment", paragraphs: ["Use the product during the agreed period without long-term storage or resale effort."] },
-        { heading: "6. Return or extend", paragraphs: ["Return according to instructions, or extend where available. Products remain in LeihflussPlus inventory."] },
+        { heading: "6. Return or extend", paragraphs: ["Return according to instructions, or extend where available. Products remain in Leihfluss inventory."] },
       ],
     },
     de: {
-      title: "So funktioniert LeihflussPlus",
+      title: "So funktioniert Leihfluss",
       intro: [
-        "LeihflussPlus ist für Menschen gemacht, die Produkte nutzen möchten, ohne sie dauerhaft besitzen zu müssen. Anstatt hohe Anschaffungskosten für Dinge zu tragen, die oft nur vorübergehend gebraucht werden, können Kundinnen und Kunden ausgewählte Produkte flexibel mieten und nach der Nutzung unkompliziert zurückgeben.",
+        "Leihfluss ist für Menschen gemacht, die Produkte nutzen möchten, ohne sie dauerhaft besitzen zu müssen. Anstatt hohe Anschaffungskosten für Dinge zu tragen, die oft nur vorübergehend gebraucht werden, können Kundinnen und Kunden ausgewählte Produkte flexibel mieten und nach der Nutzung unkompliziert zurückgeben.",
         "Unser Ablauf ist bewusst einfach, transparent und praktisch gestaltet.",
       ],
       sections: [
@@ -87,7 +87,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           heading: "5. Nutzen statt besitzen",
           paragraphs: [
             "Während der vereinbarten Mietdauer kann das Produkt ganz einfach genutzt werden, ohne hohe Einmalkosten, ohne langfristige Lagerung und ohne späteren Wiederverkaufsaufwand.",
-            "Das Eigentum am Produkt verbleibt jederzeit bei LeihflussPlus, sofern nicht ausdrücklich etwas anderes vereinbart wurde.",
+            "Das Eigentum am Produkt verbleibt jederzeit bei Leihfluss, sofern nicht ausdrücklich etwas anderes vereinbart wurde.",
           ],
         },
         {
@@ -96,7 +96,7 @@ const pages: Record<string, LocalizedInfoPage> = {
             "Nach Ablauf der Mietdauer wird das Produkt gemäß den Rückgabehinweisen zurückgesendet.",
             "Falls vorgesehen, kann die Mietdauer verlängert werden.",
             "Außerdem können Kundinnen und Kunden jederzeit weitere Produkte entdecken oder neue Anfragen stellen.",
-            "LeihflussPlus steht für Flexibilität, Komfort und einen smarteren Zugang zu Produkten.",
+            "Leihfluss steht für Flexibilität, Komfort und einen smarteren Zugang zu Produkten.",
           ],
         },
       ],
@@ -106,19 +106,19 @@ const pages: Record<string, LocalizedInfoPage> = {
     en: {
       title: "Great Condition Promise",
       intro: [
-        "Every LeihflussPlus product is checked and prepared before delivery.",
+        "Every Leihfluss product is checked and prepared before delivery.",
         "Products are expected to be functional, complete where applicable, and ready for real use.",
       ],
       sections: [
         { heading: "What customers can expect", paragraphs: ["Products are reviewed for condition, function, and completeness before each rental cycle."] },
         { heading: "Honest expectations", paragraphs: ["Minor cosmetic wear can occur in a circular rental model, but products remain suitable for intended use."] },
-        { heading: "If something is not right", paragraphs: ["If an item arrives incomplete, heavily damaged, or not usable, contact LeihflussPlus promptly for support."] },
+        { heading: "If something is not right", paragraphs: ["If an item arrives incomplete, heavily damaged, or not usable, contact Leihfluss promptly for support."] },
       ],
     },
     de: {
       title: "Unser Qualitätsversprechen",
       intro: [
-        "Bei LeihflussPlus beginnt Vertrauen mit der Qualität unserer Produkte. Unser Mietmodell funktioniert nur dann nachhaltig, wenn wir Produkte bereitstellen, die funktionstüchtig, vollständig und in einem guten nutzbaren Zustand sind.",
+        "Bei Leihfluss beginnt Vertrauen mit der Qualität unserer Produkte. Unser Mietmodell funktioniert nur dann nachhaltig, wenn wir Produkte bereitstellen, die funktionstüchtig, vollständig und in einem guten nutzbaren Zustand sind.",
         "Deshalb wird jedes Produkt vor einer neuen Vermietung geprüft.",
       ],
       sections: [
@@ -132,7 +132,7 @@ const pages: Record<string, LocalizedInfoPage> = {
         {
           heading: "Ehrliche Erwartungen",
           paragraphs: [
-            "Da LeihflussPlus ein Mietmodell anbietet, können Produkte je nach Kategorie und Nutzungsdauer leichte Gebrauchsspuren aufweisen.",
+            "Da Leihfluss ein Mietmodell anbietet, können Produkte je nach Kategorie und Nutzungsdauer leichte Gebrauchsspuren aufweisen.",
             "Solche normalen, rein optischen Spuren können bei einem zirkulären Nutzungsmodell vorkommen.",
             "Trotzdem müssen die Produkte funktional zuverlässig und für ihren Zweck geeignet bleiben.",
           ],
@@ -147,7 +147,7 @@ const pages: Record<string, LocalizedInfoPage> = {
         {
           heading: "Wenn etwas nicht stimmt",
           paragraphs: [
-            "Falls ein Produkt unvollständig, erheblich beschädigt oder nicht wie erwartet nutzbar ankommt, sollte LeihflussPlus möglichst zeitnah kontaktiert werden.",
+            "Falls ein Produkt unvollständig, erheblich beschädigt oder nicht wie erwartet nutzbar ankommt, sollte Leihfluss möglichst zeitnah kontaktiert werden.",
             "Wir prüfen den Fall und sorgen je nach Situation für Unterstützung, Ersatz oder eine andere faire Lösung.",
           ],
         },
@@ -155,7 +155,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           heading: "Unser Anspruch",
           paragraphs: [
             "Wir möchten Produkte nicht einfach nur von Person zu Person weitergeben.",
-            "LeihflussPlus prüft, pflegt und nimmt Produkte bei Bedarf aus dem aktiven Bestand, um einen verlässlichen Standard über mehrere Mietzyklen hinweg sicherzustellen.",
+            "Leihfluss prüft, pflegt und nimmt Produkte bei Bedarf aus dem aktiven Bestand, um einen verlässlichen Standard über mehrere Mietzyklen hinweg sicherzustellen.",
             "Das ist unser Qualitätsversprechen: verantwortungsvoll vorbereitete Produkte, ehrliche Kommunikation und ein hoher Anspruch an das Nutzungserlebnis.",
           ],
         },
@@ -193,7 +193,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           heading: "Praktische Hilfe statt unnötiger Hürden",
           paragraphs: [
             "Nicht jedes Problem ist automatisch ein Verschulden. Manche Produkte verschleißen mit der Zeit, und manchmal braucht es einfach Unterstützung im Umgang mit dem Produkt.",
-            "Je nach Fall bietet LeihflussPlus Hilfestellung, Ersatzmöglichkeiten, Koordination von Reparaturen oder Unterstützung bei der Rückgabe.",
+            "Je nach Fall bietet Leihfluss Hilfestellung, Ersatzmöglichkeiten, Koordination von Reparaturen oder Unterstützung bei der Rückgabe.",
           ],
         },
         {
@@ -223,7 +223,7 @@ const pages: Record<string, LocalizedInfoPage> = {
   },
   sustainability: {
     en: {
-      title: "Sustainability at LeihflussPlus",
+      title: "Sustainability at Leihfluss",
       intro: [
         "Many products are useful without long-term purchase.",
         "Rental keeps quality products in use longer and reduces unnecessary purchases and waste.",
@@ -235,16 +235,16 @@ const pages: Record<string, LocalizedInfoPage> = {
       ],
     },
     de: {
-      title: "Nachhaltigkeit bei LeihflussPlus",
+      title: "Nachhaltigkeit bei Leihfluss",
       intro: [
-        "LeihflussPlus basiert auf einer einfachen Idee: Viele Produkte müssen nicht dauerhaft besessen werden, um sinnvoll genutzt zu werden. Manche Dinge werden nur für eine bestimmte Lebensphase, für ein Projekt, einen Umzug oder einen begrenzten Zeitraum gebraucht. Der klassische Kauf führt in solchen Fällen oft zu unnötigen Ausgaben, geringer Nutzung, Lagerproblemen und vermeidbarem Abfall.",
+        "Leihfluss basiert auf einer einfachen Idee: Viele Produkte müssen nicht dauerhaft besessen werden, um sinnvoll genutzt zu werden. Manche Dinge werden nur für eine bestimmte Lebensphase, für ein Projekt, einen Umzug oder einen begrenzten Zeitraum gebraucht. Der klassische Kauf führt in solchen Fällen oft zu unnötigen Ausgaben, geringer Nutzung, Lagerproblemen und vermeidbarem Abfall.",
         "Unser Modell bietet dafür eine flexible Alternative.",
       ],
       sections: [
         {
           heading: "Zugang statt unnötigem Besitz",
           paragraphs: [
-            "Indem geeignete Produkte zur zeitlich begrenzten Nutzung angeboten werden, reduziert LeihflussPlus den Bedarf an unnötigen Neuanschaffungen dort, wo Zugang völlig ausreicht.",
+            "Indem geeignete Produkte zur zeitlich begrenzten Nutzung angeboten werden, reduziert Leihfluss den Bedarf an unnötigen Neuanschaffungen dort, wo Zugang völlig ausreicht.",
           ],
         },
         {
@@ -272,7 +272,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           paragraphs: [
             "Produkte, die unsere Standards nicht mehr erfüllen oder sich nicht mehr für die weitere Vermietung eignen, werden aus dem aktiven Bestand genommen.",
             "Je nach Produkt können sie weiterverkauft, aufbereitet, recycelt oder anderweitig verantwortungsvoll behandelt werden.",
-            "Nachhaltigkeit bei LeihflussPlus ist kein reines Schlagwort, sondern Teil des Geschäftsmodells: sinnvoller Zugang, längere Nutzung und weniger unnötiger Besitz.",
+            "Nachhaltigkeit bei Leihfluss ist kein reines Schlagwort, sondern Teil des Geschäftsmodells: sinnvoller Zugang, längere Nutzung und weniger unnötiger Besitz.",
           ],
         },
       ],
@@ -287,7 +287,7 @@ const pages: Record<string, LocalizedInfoPage> = {
         {
           heading: "Exercise of withdrawal",
           paragraphs: [
-            "To exercise withdrawal, inform LeihflussPlus by clear statement via email or post.",
+            "To exercise withdrawal, inform Leihfluss by clear statement via email or post.",
             "The sample withdrawal form may be used but is not mandatory.",
           ],
         },
@@ -309,7 +309,7 @@ const pages: Record<string, LocalizedInfoPage> = {
         {
           heading: "Ausübung des Widerrufsrechts",
           paragraphs: [
-            "Um dein Widerrufsrecht auszuüben, musst du uns, LeihflussPlus, mittels einer eindeutigen Erklärung per E-Mail oder Post über deinen Entschluss informieren, diesen Vertrag zu widerrufen.",
+            "Um dein Widerrufsrecht auszuüben, musst du uns, Leihfluss, mittels einer eindeutigen Erklärung per E-Mail oder Post über deinen Entschluss informieren, diesen Vertrag zu widerrufen.",
             "Du kannst dafür das untenstehende Muster-Widerrufsformular verwenden, dies ist jedoch nicht verpflichtend.",
           ],
         },
@@ -340,8 +340,8 @@ const pages: Record<string, LocalizedInfoPage> = {
     en: {
       title: "Rental Contract Information",
       intro: [
-        "LeihflussPlus provides products on rental/subscription basis and not as purchase unless explicitly stated.",
-        "Products remain in LeihflussPlus inventory at all times.",
+        "Leihfluss provides products on rental/subscription basis and not as purchase unless explicitly stated.",
+        "Products remain in Leihfluss inventory at all times.",
       ],
       sections: [
         {
@@ -363,8 +363,8 @@ const pages: Record<string, LocalizedInfoPage> = {
     de: {
       title: "Informationen zum Mietvertrag",
       intro: [
-        "LeihflussPlus stellt Produkte auf Miet- beziehungsweise Abonnementbasis zur Verfügung und nicht im Wege eines Verkaufs, sofern nicht ausdrücklich etwas anderes angegeben ist.",
-        "Das Eigentum am gemieteten Produkt verbleibt jederzeit bei LeihflussPlus.",
+        "Leihfluss stellt Produkte auf Miet- beziehungsweise Abonnementbasis zur Verfügung und nicht im Wege eines Verkaufs, sofern nicht ausdrücklich etwas anderes angegeben ist.",
+        "Das Eigentum am gemieteten Produkt verbleibt jederzeit bei Leihfluss.",
       ],
       sections: [
         {
@@ -393,50 +393,50 @@ const pages: Record<string, LocalizedInfoPage> = {
   },
   "terms-and-conditions": {
     en: {
-      title: "Terms and Conditions of LeihflussPlus",
-      intro: ["These Terms and Conditions govern rental, subscription use, delivery, return, and related services offered by LeihflussPlus."],
+      title: "Terms and Conditions of Leihfluss",
+      intro: ["These Terms and Conditions govern rental, subscription use, delivery, return, and related services offered by Leihfluss."],
       sections: [
         {
           id: "terms",
           heading: "Core clauses",
           bullets: [
-            "Contracting party: Muhammad Saad Ahmed, trading as LeihflussPlus, Lichtenhainer Strasse 13A, [PLZ, City], Germany, support@leihflussplus.de, VAT ID DE361677268.",
-            "Products are provided for temporary use and remain in LeihflussPlus inventory unless explicitly transferred in writing.",
-            "Orders are accepted only after explicit confirmation/approval/dispatch by LeihflussPlus.",
+            "Contracting party: Muhammad Saad Ahmed, trading as Leihfluss, Lichtenhainer Strasse 13A, [PLZ, City], Germany, support@leihfluss.de, VAT ID DE361677268.",
+            "Products are provided for temporary use and remain in Leihfluss inventory unless explicitly transferred in writing.",
+            "Orders are accepted only after explicit confirmation/approval/dispatch by Leihfluss.",
             "Prices are in EUR including statutory VAT where applicable; payments are processed via Stripe.",
             "Verification, deposits, or security holds may apply depending on product value, category, and risk profile.",
             "Minimum rental duration is category-based and never below 7 days; general maximum is 1.5 years unless stated otherwise.",
             "Customers must use products carefully and return on time with included parts, normal wear excepted.",
             "Customers may be liable for avoidable damage, misuse, loss, theft, missing parts, and non-return.",
-            "LeihflussPlus may terminate for good cause (e.g., payment default, fraud suspicion, non-return, serious breach).",
+            "Leihfluss may terminate for good cause (e.g., payment default, fraud suspicion, non-return, serious breach).",
             "German law applies, excluding UN sales law, unless mandatory consumer law states otherwise.",
           ],
         },
       ],
     },
     de: {
-      title: "Allgemeine Geschäftsbedingungen von LeihflussPlus",
+      title: "Allgemeine Geschäftsbedingungen von Leihfluss",
       intro: [
-        "Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge zwischen LeihflussPlus und Kundinnen bzw. Kunden, die über die Website oder über andere vereinbarte Kommunikationswege hinsichtlich der zeitweisen Überlassung von Produkten auf Miet- oder Abonnementbasis abgeschlossen werden.",
+        "Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge zwischen Leihfluss und Kundinnen bzw. Kunden, die über die Website oder über andere vereinbarte Kommunikationswege hinsichtlich der zeitweisen Überlassung von Produkten auf Miet- oder Abonnementbasis abgeschlossen werden.",
       ],
       sections: [
         {
           id: "terms",
           heading: "1. Geltungsbereich",
           paragraphs: [
-            "Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge zwischen LeihflussPlus und Kundinnen bzw. Kunden, die über die Website oder über andere vereinbarte Kommunikationswege hinsichtlich der zeitweisen Überlassung von Produkten auf Miet- oder Abonnementbasis abgeschlossen werden.",
+            "Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge zwischen Leihfluss und Kundinnen bzw. Kunden, die über die Website oder über andere vereinbarte Kommunikationswege hinsichtlich der zeitweisen Überlassung von Produkten auf Miet- oder Abonnementbasis abgeschlossen werden.",
           ],
         },
         {
           heading: "2. Vertragspartner",
           paragraphs: [
-            "Muhammad Saad Ahmed, handelnd unter LeihflussPlus, Lichtenhainer Strasse 13A, [PLZ, Ort], Deutschland, E-Mail: support@leihflussplus.de, USt-IdNr.: DE361677268.",
+            "Muhammad Saad Ahmed, handelnd unter Leihfluss, Lichtenhainer Strasse 13A, [PLZ, Ort], Deutschland, E-Mail: support@leihfluss.de, USt-IdNr.: DE361677268.",
           ],
         },
         {
           heading: "3. Art der Leistung",
           paragraphs: [
-            "LeihflussPlus bietet Produkte zur zeitlich begrenzten Nutzung auf Miet- oder Abonnementbasis an. Sofern nicht ausdrücklich anders angegeben, erfolgt kein Eigentumsübergang. Sämtliche Produkte bleiben im Eigentum von LeihflussPlus.",
+            "Leihfluss bietet Produkte zur zeitlich begrenzten Nutzung auf Miet- oder Abonnementbasis an. Sofern nicht ausdrücklich anders angegeben, erfolgt kein Eigentumsübergang. Sämtliche Produkte bleiben im Eigentum von Leihfluss.",
           ],
         },
         {
@@ -444,14 +444,14 @@ const pages: Record<string, LocalizedInfoPage> = {
           paragraphs: [
             "Die Darstellung der Produkte auf der Website stellt kein rechtlich bindendes Angebot dar, sondern eine Aufforderung zur Abgabe einer Bestellung.",
             "Mit dem Absenden einer Bestellung gibt die Kundin oder der Kunde ein verbindliches Angebot auf Abschluss eines Vertrags ab.",
-            "Der Vertrag kommt erst zustande, wenn LeihflussPlus die Bestellung annimmt, etwa durch Bestellbestätigung, Freigabe der Bestellung oder Versand des Produkts.",
-            "LeihflussPlus behält sich vor, Bestellungen insbesondere bei Nichtverfügbarkeit, fehlgeschlagener Verifizierung, Verdacht auf Missbrauch, Zahlungsproblemen oder betrieblichen Gründen abzulehnen.",
+            "Der Vertrag kommt erst zustande, wenn Leihfluss die Bestellung annimmt, etwa durch Bestellbestätigung, Freigabe der Bestellung oder Versand des Produkts.",
+            "Leihfluss behält sich vor, Bestellungen insbesondere bei Nichtverfügbarkeit, fehlgeschlagener Verifizierung, Verdacht auf Missbrauch, Zahlungsproblemen oder betrieblichen Gründen abzulehnen.",
           ],
         },
         {
           heading: "5. Berechtigung zum Vertragsschluss",
           paragraphs: [
-            "Verträge mit LeihflussPlus dürfen nur von Personen abgeschlossen werden, die unbeschränkt geschäftsfähig sind und im Bestellprozess vollständige und zutreffende Angaben machen.",
+            "Verträge mit Leihfluss dürfen nur von Personen abgeschlossen werden, die unbeschränkt geschäftsfähig sind und im Bestellprozess vollständige und zutreffende Angaben machen.",
           ],
         },
         {
@@ -465,7 +465,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           paragraphs: [
             "Alle Preise werden in Euro angegeben und enthalten die gesetzliche Umsatzsteuer, soweit anwendbar und sofern nichts anderes angegeben ist.",
             "Die Zahlungsabwicklung erfolgt über Stripe. Kundinnen und Kunden sind dafür verantwortlich, dass das angegebene Zahlungsmittel gültig ist und ausreichend Deckung aufweist.",
-            "Bei fehlgeschlagenen Zahlungen ist LeihflussPlus berechtigt, einen erneuten Einzug zu versuchen, Leistungen auszusetzen, Lieferungen zurückzustellen oder den Vertrag im Rahmen der gesetzlichen Vorschriften zu beenden.",
+            "Bei fehlgeschlagenen Zahlungen ist Leihfluss berechtigt, einen erneuten Einzug zu versuchen, Leistungen auszusetzen, Lieferungen zurückzustellen oder den Vertrag im Rahmen der gesetzlichen Vorschriften zu beenden.",
           ],
           bullets: [
             "wiederkehrende Mietgebühren",
@@ -479,14 +479,14 @@ const pages: Record<string, LocalizedInfoPage> = {
         {
           heading: "8. Verifizierung und Betrugsprävention",
           paragraphs: [
-            "Für bestimmte Produkte oder Bestellkonstellationen kann LeihflussPlus zusätzliche Prüfungen verlangen. Dazu können insbesondere Identitätsprüfungen, zahlungsbezogene Prüfungen, Adressprüfungen oder sonstige Sicherheitsmaßnahmen gehören.",
-            "Die Verifizierung kann über Stripe oder andere hierfür eingesetzte Dienstleister erfolgen. Wird eine erforderliche Verifizierung nicht erfolgreich abgeschlossen, ist LeihflussPlus berechtigt, die Bestellung abzulehnen, auszusetzen oder zu stornieren.",
+            "Für bestimmte Produkte oder Bestellkonstellationen kann Leihfluss zusätzliche Prüfungen verlangen. Dazu können insbesondere Identitätsprüfungen, zahlungsbezogene Prüfungen, Adressprüfungen oder sonstige Sicherheitsmaßnahmen gehören.",
+            "Die Verifizierung kann über Stripe oder andere hierfür eingesetzte Dienstleister erfolgen. Wird eine erforderliche Verifizierung nicht erfolgreich abgeschlossen, ist Leihfluss berechtigt, die Bestellung abzulehnen, auszusetzen oder zu stornieren.",
           ],
         },
         {
           heading: "9. Kautionen und Sicherheitsleistungen",
           paragraphs: [
-            "Für ausgewählte Produkte kann LeihflussPlus eine Kaution oder eine temporäre Sicherheitsleistung verlangen. Ob und in welcher Höhe eine solche Sicherheitsleistung anfällt, richtet sich insbesondere nach Produktwert, Produktkategorie, Risikoeinstufung oder sonstigen sachlichen Kriterien.",
+            "Für ausgewählte Produkte kann Leihfluss eine Kaution oder eine temporäre Sicherheitsleistung verlangen. Ob und in welcher Höhe eine solche Sicherheitsleistung anfällt, richtet sich insbesondere nach Produktwert, Produktkategorie, Risikoeinstufung oder sonstigen sachlichen Kriterien.",
             "Eine Kaution oder Sicherheitsleistung begrenzt nicht die Haftung der Kundin oder des Kunden für Verlust, Diebstahl, schwere Beschädigung, fehlende Teile oder Nicht-Rückgabe.",
           ],
         },
@@ -494,7 +494,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           heading: "10. Mietdauer",
           paragraphs: [
             "Die Mindestmietdauer richtet sich nach der jeweiligen Produktkategorie und wird auf der entsprechenden Produktseite angegeben. Die Mindestmietdauer beträgt nie weniger als sieben Tage.",
-            "Auch die maximale Mietdauer kann je nach Produkt unterschiedlich sein. Grundsätzlich bietet LeihflussPlus keine Mietzeiträume von mehr als 1,5 Jahren an, sofern nicht ausdrücklich etwas anderes angegeben ist.",
+            "Auch die maximale Mietdauer kann je nach Produkt unterschiedlich sein. Grundsätzlich bietet Leihfluss keine Mietzeiträume von mehr als 1,5 Jahren an, sofern nicht ausdrücklich etwas anderes angegeben ist.",
           ],
         },
         {
@@ -531,7 +531,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           bullets: [
             "das Produkt in angemessenem Zustand zu erhalten",
             "es vor Diebstahl, Verlust und vermeidbaren Schäden zu schützen",
-            "LeihflussPlus bei Defekten, Störungen, Diebstahl oder Verlust unverzüglich zu informieren",
+            "Leihfluss bei Defekten, Störungen, Diebstahl oder Verlust unverzüglich zu informieren",
             "das Produkt nach Ablauf der Mietdauer vollständig zurückzugeben",
             "bei Rückgabe, Abholung oder Klärung von Vorfällen angemessen mitzuwirken",
           ],
@@ -546,26 +546,26 @@ const pages: Record<string, LocalizedInfoPage> = {
         {
           heading: "16. Rückgabe",
           paragraphs: [
-            "Nach Ablauf der Mietdauer oder nach Beendigung des Vertrags ist das Produkt entsprechend den von LeihflussPlus mitgeteilten Rückgabeanweisungen zurückzugeben.",
-            "Bei verspäteter Rückgabe ist LeihflussPlus berechtigt, die laufenden Mietgebühren weiter zu berechnen, zulässige vertragliche Folgen der verspäteten Rückgabe geltend zu machen und weitere Ansprüche zu verfolgen.",
+            "Nach Ablauf der Mietdauer oder nach Beendigung des Vertrags ist das Produkt entsprechend den von Leihfluss mitgeteilten Rückgabeanweisungen zurückzugeben.",
+            "Bei verspäteter Rückgabe ist Leihfluss berechtigt, die laufenden Mietgebühren weiter zu berechnen, zulässige vertragliche Folgen der verspäteten Rückgabe geltend zu machen und weitere Ansprüche zu verfolgen.",
           ],
         },
         {
           heading: "17. Kündigung und Vertragsbeendigung",
           paragraphs: [
             "Kundinnen und Kunden können laufende Mietverhältnisse nach Maßgabe der jeweils bei Bestellung oder auf der Produktseite angegebenen Kündigungsregelungen beenden.",
-            "LeihflussPlus ist berechtigt, den Vertrag aus wichtigem Grund zu kündigen, insbesondere bei Zahlungsverzug, Betrugsverdacht, Nicht-Rückgabe, schwerwiegender Vertragsverletzung, missbräuchlicher Nutzung oder Verweigerung erforderlicher Verifizierungs- oder Rückgabeschritte.",
+            "Leihfluss ist berechtigt, den Vertrag aus wichtigem Grund zu kündigen, insbesondere bei Zahlungsverzug, Betrugsverdacht, Nicht-Rückgabe, schwerwiegender Vertragsverletzung, missbräuchlicher Nutzung oder Verweigerung erforderlicher Verifizierungs- oder Rückgabeschritte.",
           ],
         },
         {
           heading: "18. Eigentum",
-          paragraphs: ["Alle vermieteten Produkte bleiben ausschließliches Eigentum von LeihflussPlus, sofern das Eigentum nicht ausdrücklich schriftlich übertragen wird."],
+          paragraphs: ["Alle vermieteten Produkte bleiben ausschließliches Eigentum von Leihfluss, sofern das Eigentum nicht ausdrücklich schriftlich übertragen wird."],
         },
         {
           heading: "19. Haftung",
           paragraphs: [
-            "LeihflussPlus haftet unbeschränkt bei Vorsatz und grober Fahrlässigkeit, bei Verletzung von Leben, Körper oder Gesundheit sowie in den Fällen zwingender gesetzlicher Haftung.",
-            "Bei einfacher Fahrlässigkeit haftet LeihflussPlus nur bei Verletzung wesentlicher Vertragspflichten und nur auf den vertragstypischen, vorhersehbaren Schaden. Im Übrigen ist die Haftung ausgeschlossen, soweit gesetzlich zulässig.",
+            "Leihfluss haftet unbeschränkt bei Vorsatz und grober Fahrlässigkeit, bei Verletzung von Leben, Körper oder Gesundheit sowie in den Fällen zwingender gesetzlicher Haftung.",
+            "Bei einfacher Fahrlässigkeit haftet Leihfluss nur bei Verletzung wesentlicher Vertragspflichten und nur auf den vertragstypischen, vorhersehbaren Schaden. Im Übrigen ist die Haftung ausgeschlossen, soweit gesetzlich zulässig.",
             "Keine Haftung besteht für Schäden, die durch unsachgemäße Nutzung, unzulässige Veränderungen, Nichtbeachtung von Anweisungen oder Nutzung außerhalb des vorgesehenen Zwecks entstehen.",
           ],
         },
@@ -573,7 +573,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           heading: "20. Hinweise auf Drittmarken",
           paragraphs: [
             "Nennungen von Drittmarken, Herstellern oder Produktbezeichnungen dienen ausschließlich beschreibenden Zwecken.",
-            "Sofern nicht ausdrücklich anders angegeben, besteht keine wirtschaftliche, vertragliche oder autorisierte Verbindung zwischen LeihflussPlus und diesen Marken.",
+            "Sofern nicht ausdrücklich anders angegeben, besteht keine wirtschaftliche, vertragliche oder autorisierte Verbindung zwischen Leihfluss und diesen Marken.",
           ],
         },
         {
@@ -593,16 +593,16 @@ const pages: Record<string, LocalizedInfoPage> = {
   },
   "privacy-policy": {
     en: {
-      title: "Privacy Policy of LeihflussPlus",
+      title: "Privacy Policy of Leihfluss",
       intro: [
-        "This policy explains how LeihflussPlus processes personal data for website operation, rentals, payments, verification, support, and legal compliance.",
+        "This policy explains how Leihfluss processes personal data for website operation, rentals, payments, verification, support, and legal compliance.",
       ],
       sections: [
         {
           id: "privacy",
           heading: "Controller",
           paragraphs: [
-            "Muhammad Saad Ahmed, trading as LeihflussPlus, Lichtenhainer Strasse 13A, [PLZ, City], Germany, support@leihflussplus.de, VAT ID DE361677268.",
+            "Muhammad Saad Ahmed, trading as Leihfluss, Lichtenhainer Strasse 13A, [PLZ, City], Germany, support@leihfluss.de, VAT ID DE361677268.",
           ],
         },
         {
@@ -634,7 +634,7 @@ const pages: Record<string, LocalizedInfoPage> = {
       ],
     },
     de: {
-      title: "Datenschutzerklärung von LeihflussPlus",
+      title: "Datenschutzerklärung von Leihfluss",
       intro: [
         "Der Schutz personenbezogener Daten ist uns wichtig. Diese Datenschutzerklärung erläutert, welche personenbezogenen Daten wir verarbeiten, wenn du unsere Website besuchst, Produkte mietest, mit uns Kontakt aufnimmst oder unsere Leistungen nutzt.",
       ],
@@ -643,7 +643,7 @@ const pages: Record<string, LocalizedInfoPage> = {
           id: "privacy",
           heading: "1. Verantwortlicher",
           paragraphs: [
-            "Muhammad Saad Ahmed, handelnd unter LeihflussPlus, Lichtenhainer Strasse 13A, [PLZ, Ort], Deutschland, E-Mail: support@leihflussplus.de, USt-IdNr.: DE361677268.",
+            "Muhammad Saad Ahmed, handelnd unter Leihfluss, Lichtenhainer Strasse 13A, [PLZ, Ort], Deutschland, E-Mail: support@leihfluss.de, USt-IdNr.: DE361677268.",
           ],
         },
         {
@@ -788,11 +788,11 @@ const pages: Record<string, LocalizedInfoPage> = {
           id: "imprint",
           bullets: [
             "Muhammad Saad Ahmed",
-            "trading as LeihflussPlus",
+            "trading as Leihfluss",
             "Lichtenhainer Strasse 13A",
             "[PLZ, City]",
             "Germany",
-            "Email: support@leihflussplus.de",
+            "Email: support@leihfluss.de",
             "VAT ID (Section 27a UStG): DE361677268",
             "Responsible for content (Section 18 para. 2 MStV): Muhammad Saad Ahmed, Lichtenhainer Strasse 13A, [PLZ, City], Germany",
           ],
@@ -807,11 +807,11 @@ const pages: Record<string, LocalizedInfoPage> = {
           id: "imprint",
           bullets: [
             "Muhammad Saad Ahmed",
-            "handelnd unter LeihflussPlus",
+            "handelnd unter Leihfluss",
             "Lichtenhainer Strasse 13A",
             "[PLZ, Ort]",
             "Deutschland",
-            "E-Mail: support@leihflussplus.de",
+            "E-Mail: support@leihfluss.de",
             "Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE361677268",
             "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Muhammad Saad Ahmed, Lichtenhainer Strasse 13A, [PLZ, Ort], Deutschland",
           ],

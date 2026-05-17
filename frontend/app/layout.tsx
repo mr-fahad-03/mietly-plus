@@ -10,7 +10,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "LeihflussPlus",
+  title: "Leihfluss",
   description: "Rental platform",
   icons: {
     icon: "/favicon.svg",

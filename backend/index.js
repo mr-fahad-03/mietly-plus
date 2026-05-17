@@ -54,7 +54,7 @@ const emailConfig = {
   user: String(process.env.SMTP_USER || "").trim(),
   pass: String(process.env.SMTP_PASS || "").trim(),
   fromEmail: String(process.env.EMAIL_FROM || process.env.SMTP_USER || "").trim(),
-  fromName: String(process.env.EMAIL_FROM_NAME || "LeihflussPlus").trim(),
+  fromName: String(process.env.EMAIL_FROM_NAME || "Leihfluss").trim(),
 };
 
 const canSendEmail =
@@ -329,7 +329,7 @@ function renderEmailTemplate({ eyebrow, title, intro, bodyHtml, ctaText, ctaHref
     <div style="margin:0;padding:24px;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;color:#111827;">
       <div style="max-width:620px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;">
         <div style="padding:18px 24px 14px 24px;background:#ffffff;border-bottom:1px solid #eef2f7;text-align:center;">
-          <img src="${logoUrl}" alt="LeihflussPlus" style="height:34px;width:auto;max-width:180px;display:inline-block;" />
+          <img src="${logoUrl}" alt="Leihfluss" style="height:34px;width:auto;max-width:180px;display:inline-block;" />
         </div>
         <div style="padding:20px 24px;background:#f0fdf4;color:#111827;border-bottom:1px solid #dcfce7;">
           <p style="margin:0;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#3f6212;">${safeEyebrow}</p>
@@ -347,7 +347,7 @@ function renderEmailTemplate({ eyebrow, title, intro, bodyHtml, ctaText, ctaHref
           }
         </div>
         <div style="padding:14px 24px;border-top:1px solid #e5e7eb;background:#fafafa;">
-          <p style="margin:0;font-size:12px;color:#6b7280;">${safeFooterNote || "Thanks for choosing LeihflussPlus."}</p>
+          <p style="margin:0;font-size:12px;color:#6b7280;">${safeFooterNote || "Thanks for choosing Leihfluss."}</p>
         </div>
       </div>
     </div>
@@ -365,7 +365,7 @@ async function sendOrderFulfillmentStatusEmail(order) {
     `Track your order from your account: ${orderUrl}`,
     "",
     "Thank you,",
-    "LeihflussPlus",
+    "Leihfluss",
   ].join("\n");
   const html = renderEmailTemplate({
     eyebrow: "Order Update",
@@ -405,7 +405,7 @@ async function sendRentalEndingReminderEmail(order, rentalEndDate) {
     `Please review your rental from your account: ${orderUrl}`,
     "",
     "Thank you,",
-    "LeihflussPlus",
+    "Leihfluss",
   ].join("\n");
   const html = renderEmailTemplate({
     eyebrow: "Rental Reminder",
@@ -453,7 +453,7 @@ function hashOtp(otp) {
 }
 
 async function sendSignupOtpEmail(email, otp, name) {
-  const subject = "Your LeihflussPlus verification code";
+  const subject = "Your Leihfluss verification code";
   const text = [
     `Hi ${name || "there"},`,
     "",
@@ -461,7 +461,7 @@ async function sendSignupOtpEmail(email, otp, name) {
     "This code expires in 10 minutes.",
     "",
     "If you did not request this, please ignore this email.",
-    "LeihflussPlus",
+    "Leihfluss",
   ].join("\n");
   const html = renderEmailTemplate({
     eyebrow: "Email Verification",
@@ -524,21 +524,21 @@ async function sendWelcomeEmail(user) {
   if (!user?.email) return false;
   const profileUrl = `${getFrontendBaseUrl()}/profile`;
   const name = user.name || "there";
-  const subject = "Welcome to LeihflussPlus";
+  const subject = "Welcome to Leihfluss";
   const text = [
     `Hi ${name},`,
     "",
-    "Welcome to LeihflussPlus. Your account is ready and you can start renting now.",
+    "Welcome to Leihfluss. Your account is ready and you can start renting now.",
     `Manage your account here: ${profileUrl}`,
     "",
     "Thank you,",
-    "LeihflussPlus",
+    "Leihfluss",
   ].join("\n");
 
   const html = renderEmailTemplate({
     eyebrow: "Welcome",
-    title: "Your LeihflussPlus account is ready",
-    intro: `Hi ${name}, welcome to LeihflussPlus.`,
+    title: "Your Leihfluss account is ready",
+    intro: `Hi ${name}, welcome to Leihfluss.`,
     bodyHtml: `
       <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:14px;">
         <p style="margin:0;font-size:14px;color:#374151;">You can now explore products and place your first rental order.</p>
@@ -572,7 +572,7 @@ async function sendOrderCreatedEmail(order) {
     `View your order: ${orderUrl}`,
     "",
     "Thank you,",
-    "LeihflussPlus",
+    "Leihfluss",
   ].join("\n");
 
   const html = renderEmailTemplate({
@@ -624,7 +624,7 @@ async function sendOrderPaymentConfirmedEmail(order) {
     `Track order updates here: ${orderUrl}`,
     "",
     "Thank you,",
-    "LeihflussPlus",
+    "Leihfluss",
   ].join("\n");
 
   const html = renderEmailTemplate({
@@ -652,9 +652,9 @@ async function sendOrderPaymentConfirmedEmail(order) {
 
 function getSupportRequestRecipientEmail() {
   const recipient = String(
-    process.env.SUPPORT_REQUEST_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL || "support@leihflussplus.de"
+    process.env.SUPPORT_REQUEST_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL || "support@leihfluss.de"
   ).trim();
-  return recipient || "support@leihflussplus.de";
+  return recipient || "support@leihfluss.de";
 }
 
 async function sendSupportRequestNotificationEmail(supportRequest) {
@@ -707,7 +707,7 @@ async function sendSupportRequestNotificationEmail(supportRequest) {
         <p style="margin:0;font-size:14px;line-height:1.6;color:#111827;">${safeMessageHtml || "-"}</p>
       </div>
     `,
-    footerNote: "This is an automated support notification from LeihflussPlus.",
+    footerNote: "This is an automated support notification from Leihfluss.",
   });
 
   const adminSent = await sendEmail({
@@ -724,7 +724,7 @@ async function sendSupportRequestNotificationEmail(supportRequest) {
   const customerText = [
     `Hi ${supportRequest.name || "there"},`,
     "",
-    "Thanks for reaching out to LeihflussPlus support.",
+    "Thanks for reaching out to Leihfluss support.",
     "We received your request and our team will reply as soon as possible.",
     "",
     "Summary:",
@@ -732,13 +732,13 @@ async function sendSupportRequestNotificationEmail(supportRequest) {
     `Message: ${supportRequest.message || "-"}`,
     "",
     "Best regards,",
-    "LeihflussPlus Support",
+    "Leihfluss Support",
   ].join("\n");
 
   const customerHtml = renderEmailTemplate({
     eyebrow: "Support Confirmation",
     title: "We Received Your Request",
-    intro: `Hi ${supportRequest.name || "there"}, thanks for contacting LeihflussPlus support.`,
+    intro: `Hi ${supportRequest.name || "there"}, thanks for contacting Leihfluss support.`,
     bodyHtml: `
       <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:14px;">
         <p style="margin:0 0 6px 0;font-size:13px;color:#6b7280;">Subject</p>
@@ -1326,7 +1326,7 @@ app.post("/api/uploads/category-image", requireAdminAuth, upload.single("image")
     const uploadResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          folder: "leihflussplus/categories",
+          folder: "leihfluss/categories",
           resource_type: "image",
         },
         (error, result) => {
@@ -1368,7 +1368,7 @@ app.post("/api/uploads/banner-image", requireAdminAuth, upload.single("image"), 
     const uploadResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          folder: "leihflussplus/banners",
+          folder: "leihfluss/banners",
           resource_type: "image",
         },
         (error, result) => {
@@ -1410,7 +1410,7 @@ app.post("/api/uploads/brand-image", requireAdminAuth, upload.single("image"), a
     const uploadResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          folder: "leihflussplus/brands",
+          folder: "leihfluss/brands",
           resource_type: "image",
         },
         (error, result) => {
@@ -1452,7 +1452,7 @@ app.post("/api/uploads/product-image", requireAdminAuth, upload.single("image"),
     const uploadResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          folder: "leihflussplus/products",
+          folder: "leihfluss/products",
           resource_type: "image",
         },
         (error, result) => {
@@ -1494,7 +1494,7 @@ app.post("/api/uploads/blog-image", requireAdminAuth, upload.single("image"), as
     const uploadResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          folder: "leihflussplus/blogs",
+          folder: "leihfluss/blogs",
           resource_type: "image",
         },
         (error, result) => {
