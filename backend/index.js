@@ -3176,8 +3176,8 @@ if (require.main === module) {
   });
 }
 
-module.exports = {
-  app,
-  initializeApp,
-  runRentalEndingReminderSweep,
-};
+module.exports = app;
+module.exports.default = app;
+module.exports.app = app;
+module.exports.initializeApp = initializeApp;
+module.exports.runRentalEndingReminderSweep = runRentalEndingReminderSweep;
