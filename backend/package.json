@@ -13,6 +13,9 @@
     "seed:reset-products": "node scripts/seed.js --reset-products",
     "seed:reset-all": "node scripts/seed.js --reset-all"
   },
+  "engines": {
+    "node": "22.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
