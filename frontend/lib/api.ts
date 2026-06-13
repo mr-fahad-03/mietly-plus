@@ -964,6 +964,8 @@ export async function createProduct(
     offerPrice?: number;
     monthlyBuyerPrice?: number;
     monthlyOfferPrice?: number;
+    weeklyAutoDiscount?: number;
+    monthlyAutoDiscount?: number;
     stock?: number;
     stockStatus?: "in_stock" | "low_stock" | "out_of_stock" | "preorder";
     lowStockWarning?: number;
@@ -1037,6 +1039,8 @@ export async function updateProduct(
     offerPrice?: number;
     monthlyBuyerPrice?: number;
     monthlyOfferPrice?: number;
+    weeklyAutoDiscount?: number;
+    monthlyAutoDiscount?: number;
     stock?: number;
     stockStatus?: "in_stock" | "low_stock" | "out_of_stock" | "preorder";
     lowStockWarning?: number;

@@ -1,3 +1,56 @@
+# Bulk Excel Upload Implementation
+
+## 1. `backend/models/Product.js` — Add fields
+
+After `monthlyOfferPrice` block (line ~97), insert:
+
+```js
+    weeklyAutoDiscount: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+    monthlyAutoDiscount: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+```
+
+## 2. `backend/index.js` — Add to create route
+
+After `monthlyOfferPrice = 0,` (line ~1990), add:
+
+```js
+    weeklyAutoDiscount = 0,
+    monthlyAutoDiscount = 0,
+```
+
+After `monthlyOfferPrice: Number(monthlyOfferPrice) || 0,` (line ~2083), add:
+
+```js
+    weeklyAutoDiscount: Number(weeklyAutoDiscount) || 0,
+    monthlyAutoDiscount: Number(monthlyAutoDiscount) || 0,
+```
+
+## 3. `frontend/lib/api.ts` — Add to type signatures
+
+In `createProduct` payload (after `monthlyOfferPrice` around line ~966):
+
+```ts
+    weeklyAutoDiscount?: number;
+    monthlyAutoDiscount?: number;
+```
+
+Same in `updateProduct` payload (after `monthlyOfferPrice` around line ~1041).
+
+## 4. `frontend/app/admin/products/bulk/page.tsx` — Full rewrite
+
+Replace the entire file with:
+
+```tsx
 "use client";
 
 import { ChangeEvent, useMemo, useState } from "react";
@@ -32,13 +85,8 @@ type CategoryResolutionResult = {
 
 type SheetRow = Record<string, string | number | boolean | null | undefined>;
 
-const REQUIRED_COLUMNS = [
-  "Product Name (EN)",
-  "Slug",
-  "Monthly Rental Price (base)",
-  "Brand",
-  "Main Category",
-];
+const REQUIRED_COLUMNS = ["Product Name (EN)", "Slug", "Monthly Rental Price (base)", "Brand"];
+const OPTIONAL_RELATION_COLUMNS = ["Brand", "Category", "Main Category"];
 
 const TEMPLATE_HEADERS = [
   "Product Name (EN)",
@@ -48,18 +96,18 @@ const TEMPLATE_HEADERS = [
   "Brand",
   "Short Description (EN)",
   "Short Description (DE)",
-  "Long Description (EN) -",
+  "Long Description (EN)",
   "Long Description (DE)",
   "Category",
   "Main Category",
   "Upload Main Image",
-  "Other images Seperated by commas",
-  "Weekly Buyer Price (cut price)",
+  "Other Images",
+  "Weekly Buyer Price",
   "Weekly Offer Price",
-  "Weekly Auto Discount",
-  "Monthly Buyer Price (cut price)",
+  "Weekly Auto Discount (%)",
+  "Monthly Buyer Price",
   "Monthly Offer Price",
-  "Monthly Auto Discount",
+  "Monthly Auto Discount (%)",
   "Monthly Rental Price (base)",
   "Delivery Fee (EUR)",
   "Stock",
@@ -72,12 +120,12 @@ const TEMPLATE_HEADERS = [
   "Max Rental Qty",
   "Unit",
   "Verification Required",
-  "Enable deposit for this product",
+  "Enable Deposit",
   "Deposit Amount",
   "Replacement Value",
   "Weight (kg)",
-  "Tags (comma-separated)",
-  "Specifications (line: Key: Value)",
+  "Tags",
+  "Specifications",
   "Meta Title",
   "Canonical URL",
   "Meta Description",
@@ -129,11 +177,11 @@ const TEMPLATE_SAMPLE = [
   "gaming,laptop,student",
   "CPU:Intel Core i7|RAM:16GB|Storage:512GB SSD",
   "Gaming Laptop Rental | MietlyPlus",
-  "",
+  "https://mietlyplus.de/products/gaming-laptop-rental",
   "Rent a high-performance gaming laptop with flexible weekly or monthly plans.",
   "gaming, laptop, rent",
   "Gaming Laptop Rental",
-  "",
+  "https://mietlyplus.de/images/og-gaming-laptop.jpg",
   "Rent a gaming laptop from MietlyPlus",
   "Yes",
   "Yes",
@@ -201,18 +249,18 @@ const COLUMN_MAP: Record<string, string> = {
   "Brand": "brand",
   "Short Description (EN)": "shortDescEn",
   "Short Description (DE)": "shortDescDe",
-  "Long Description (EN) -": "longDescEn",
+  "Long Description (EN)": "longDescEn",
   "Long Description (DE)": "longDescDe",
   "Category": "category",
   "Main Category": "mainCategory",
   "Upload Main Image": "imageKey",
-  "Other images Seperated by commas": "galleryImageKeys",
-  "Weekly Buyer Price (cut price)": "buyerPrice",
+  "Other Images": "galleryImageKeys",
+  "Weekly Buyer Price": "buyerPrice",
   "Weekly Offer Price": "offerPrice",
-  "Weekly Auto Discount": "weeklyAutoDiscount",
-  "Monthly Buyer Price (cut price)": "monthlyBuyerPrice",
+  "Weekly Auto Discount (%)": "weeklyAutoDiscount",
+  "Monthly Buyer Price": "monthlyBuyerPrice",
   "Monthly Offer Price": "monthlyOfferPrice",
-  "Monthly Auto Discount": "monthlyAutoDiscount",
+  "Monthly Auto Discount (%)": "monthlyAutoDiscount",
   "Monthly Rental Price (base)": "monthlyPrice",
   "Delivery Fee (EUR)": "deliveryFee",
   "Stock": "stock",
@@ -225,12 +273,12 @@ const COLUMN_MAP: Record<string, string> = {
   "Max Rental Qty": "maxRentalQuantity",
   "Unit": "unit",
   "Verification Required": "verificationRequired",
-  "Enable deposit for this product": "depositEnabled",
+  "Enable Deposit": "depositEnabled",
   "Deposit Amount": "securityDeposit",
   "Replacement Value": "replacementValue",
   "Weight (kg)": "weightKg",
-  "Tags (comma-separated)": "tags",
-  "Specifications (line: Key: Value)": "specifications",
+  "Tags": "tags",
+  "Specifications": "specifications",
   "Meta Title": "metaTitle",
   "Canonical URL": "canonicalUrl",
   "Meta Description": "metaDescription",
@@ -257,8 +305,8 @@ function fileKeyFromName(name: string) {
 
 function mapRowToProduct(row: SheetRow, uploadedImages: Map<string, string>): BulkProductInput {
   const raw = normalizeRow(row);
-  const imageKey = toStringValue(raw["Upload Main Image"]).toLowerCase();
-  const galleryKeys = parseCommaList(raw["Other images Seperated by commas"]).map((item) => item.toLowerCase());
+  const imageKey = toStringValue(raw.imageKey || raw["Upload Main Image"]).toLowerCase();
+  const galleryKeys = parseCommaList(raw.galleryImageKeys || raw["Other Images"]).map((item) => item.toLowerCase());
 
   const get = (friendlyName: string): unknown => {
     const internalKey = COLUMN_MAP[friendlyName];
@@ -266,7 +314,7 @@ function mapRowToProduct(row: SheetRow, uploadedImages: Map<string, string>): Bu
   };
 
   const verificationRequired = parseBoolean(get("Verification Required"), true);
-  const depositEnabled = parseBoolean(get("Enable deposit for this product"), false) || false;
+  const depositEnabled = parseBoolean(get("Enable Deposit"), false) || false;
 
   return {
     title: toStringValue(get("Product Name (EN)")),
@@ -275,9 +323,9 @@ function mapRowToProduct(row: SheetRow, uploadedImages: Map<string, string>): Bu
       de: toStringValue(get("Product Name (DE)")),
     },
     slug: toStringValue(get("Slug")),
-    description: toStringValue(get("Long Description (EN) -")),
+    description: toStringValue(get("Long Description (EN)")),
     descriptionI18n: {
-      en: toStringValue(get("Long Description (EN) -")),
+      en: toStringValue(get("Long Description (EN)")),
       de: toStringValue(get("Long Description (DE)")),
     },
     shortDescription: toStringValue(get("Short Description (EN)")),
@@ -296,14 +344,14 @@ function mapRowToProduct(row: SheetRow, uploadedImages: Map<string, string>): Bu
     categoryDe: toStringValue(raw.categoryDe || ""),
     categoryId: toStringValue(raw.categoryId || ""),
     subcategoryId: toStringValue(raw.subcategoryId || ""),
-    tags: parseCommaList(get("Tags (comma-separated)")),
+    tags: parseCommaList(get("Tags")),
     monthlyPrice: Number(toStringValue(get("Monthly Rental Price (base)"))),
-    buyerPrice: parseNumber(get("Weekly Buyer Price (cut price)"), 0),
+    buyerPrice: parseNumber(get("Weekly Buyer Price"), 0),
     offerPrice: parseNumber(get("Weekly Offer Price"), 0),
-    monthlyBuyerPrice: parseNumber(get("Monthly Buyer Price (cut price)"), 0),
+    monthlyBuyerPrice: parseNumber(get("Monthly Buyer Price"), 0),
     monthlyOfferPrice: parseNumber(get("Monthly Offer Price"), 0),
-    weeklyAutoDiscount: parseNumber(get("Weekly Auto Discount"), 0),
-    monthlyAutoDiscount: parseNumber(get("Monthly Auto Discount"), 0),
+    weeklyAutoDiscount: parseNumber(get("Weekly Auto Discount (%)"), 0),
+    monthlyAutoDiscount: parseNumber(get("Monthly Auto Discount (%)"), 0),
     depositEnabled,
     securityDeposit: depositEnabled ? parseNumber(get("Deposit Amount"), 0) : 0,
     replacementValue: parseNumber(get("Replacement Value"), 0),
@@ -323,7 +371,7 @@ function mapRowToProduct(row: SheetRow, uploadedImages: Map<string, string>): Bu
     deliveryFee: parseNumber(get("Delivery Fee (EUR)"), 0),
     verificationRequired,
     refundable: parseBoolean(get("Refundable"), true),
-    specifications: parseSpecifications(get("Specifications (line: Key: Value)")),
+    specifications: parseSpecifications(get("Specifications")),
     seo: {
       metaTitle: toStringValue(get("Meta Title")),
       metaDescription: toStringValue(get("Meta Description")),
@@ -347,7 +395,7 @@ function validateProduct(product: BulkProductInput, rowNumber: number): string |
   }
   if (!Number.isFinite(product.monthlyPrice)) return `Row ${rowNumber}: Monthly Rental Price (base) must be a valid number.`;
   if ((product.minimumRentalDays || 1) > (product.maximumRentalDays || 1)) {
-    return `Row ${rowNumber}: Min Rental (weeks) cannot be greater than Max Rental (weeks).`;
+    return `Row ${rowNumber}: Min rental weeks cannot be greater than Max rental weeks.`;
   }
   return null;
 }
@@ -670,7 +718,7 @@ export default function AdminBulkProductsPage() {
       const missing = REQUIRED_COLUMNS.filter((col) => !(col in first));
       if (missing.length) throw new Error(`Missing required columns: ${missing.join(", ")}`);
       setParsedRows(rows);
-      setMessage(`${rows.length} rows parsed. Ready to import.`);
+      setMessage(`${rows.length} rows parsed. You can import now and add images later from Edit Product.`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not parse file.");
     }
@@ -697,7 +745,7 @@ export default function AdminBulkProductsPage() {
       }
       setUploadedImages(map);
       setImageCount(map.size);
-      setMessage(`${files.length} image(s) uploaded. Total mapped: ${map.size}.`);
+      setMessage(`${files.length} image(s) uploaded. Total mapped images: ${map.size}.`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Image upload failed.");
     } finally {
@@ -764,7 +812,7 @@ export default function AdminBulkProductsPage() {
       }
 
       setMessage(
-        `${successCount} products imported. Created ${createdBrands} brand(s), ${createdMainCategories} main categor(ies), ${createdChildCategories} subcategor(ies).`
+        `${successCount} products imported successfully. Created ${createdBrands} brand(s), ${createdMainCategories} main categor(ies), ${createdChildCategories} subcategor(ies).`
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Bulk import failed.");
@@ -796,26 +844,31 @@ export default function AdminBulkProductsPage() {
 
   return (
     <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <h1 className="text-2xl font-bold text-zinc-900">Bulk Product Import</h1>
+      <h1 className="text-2xl font-bold text-zinc-900">Add Bulk Products</h1>
       <p className="mt-1 text-sm text-zinc-600">
-        Upload an Excel or CSV file with your product data. Download the sample Excel below to see the required format.
+        Upload an Excel or CSV file with your product data. Download the sample template to see the required format.
       </p>
 
       <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
-        <p className="font-semibold text-zinc-900">Download Sample File</p>
-        <p className="mt-1">Download the sample Excel file, fill in your product data, and upload it back.</p>
+        <p className="font-semibold text-zinc-900">Column Guide</p>
+        <ul className="mt-1 list-inside list-disc space-y-1">
+          <li><strong>Required:</strong> Product Name (EN), Slug, Monthly Rental Price (base), Brand</li>
+          <li>Main Category = parent (e.g. Computers), Category = child (e.g. Gaming Laptops)</li>
+          <li>Use brand names to auto-create missing brands</li>
+          <li>Images: Upload files below, then reference by filename (without extension) in "Upload Main Image" and "Other Images" columns</li>
+        </ul>
         <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
             onClick={downloadTemplate}
-            className="rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-100"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-800"
           >
             Download Sample Excel
           </button>
           <button
             type="button"
             onClick={downloadSampleCsv}
-            className="rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-100"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-800"
           >
             Download Sample CSV
           </button>
@@ -824,26 +877,26 @@ export default function AdminBulkProductsPage() {
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <div>
-          <p className="mb-2 text-sm font-medium text-zinc-800">Upload CSV/Excel File</p>
+          <p className="mb-2 text-sm font-medium text-zinc-800">1) Upload CSV/Excel</p>
           <input
             type="file"
             accept=".csv,.xlsx,.xls"
             onChange={onSheetChange}
-            className="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-lime-500 file:px-3 file:py-1 file:text-white file:cursor-pointer"
+            className="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-lime-500 file:px-3 file:py-1 file:text-white"
           />
           {fileName ? <p className="mt-1 text-xs text-zinc-600">Selected: {fileName}</p> : null}
         </div>
         <div>
-          <p className="mb-2 text-sm font-medium text-zinc-800">Upload Product Images</p>
+          <p className="mb-2 text-sm font-medium text-zinc-800">2) Upload Images</p>
           <input
             type="file"
             accept="image/*"
             multiple
             onChange={onImagesChange}
-            className="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-lime-500 file:px-3 file:py-1 file:text-white file:cursor-pointer"
+            className="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-lime-500 file:px-3 file:py-1 file:text-white"
           />
           <p className="mt-1 text-xs text-zinc-600">Mapped images: {imageCount}</p>
-          <p className="mt-1 text-xs text-zinc-500">Optional — add images later from Edit Product.</p>
+          <p className="mt-1 text-xs text-zinc-500">Skip if you want to add images later from Edit Product.</p>
           {uploadingImages ? <p className="mt-1 text-xs text-zinc-500">Uploading images...</p> : null}
         </div>
       </div>
@@ -878,12 +931,12 @@ export default function AdminBulkProductsPage() {
         </div>
       ) : null}
 
-      <div className="mt-4 flex items-center gap-4">
+      <div className="mt-4">
         <button
           type="button"
           onClick={onImport}
           disabled={loading || uploadingImages || !parsedRows.length}
-          className="rounded-xl bg-lime-500 px-6 py-2.5 font-semibold text-white disabled:opacity-60"
+          className="rounded-xl bg-lime-500 px-5 py-2 font-semibold text-white disabled:opacity-60"
         >
           {loading ? "Importing..." : "Import Products"}
         </button>
@@ -894,3 +947,4 @@ export default function AdminBulkProductsPage() {
     </section>
   );
 }
+```

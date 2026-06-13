@@ -1988,6 +1988,8 @@ app.post("/api/admin/products", requireAdminAuth, async (req, res) => {
     offerPrice = 0,
     monthlyBuyerPrice = 0,
     monthlyOfferPrice = 0,
+    weeklyAutoDiscount = 0,
+    monthlyAutoDiscount = 0,
     stock = 0,
     stockStatus = "in_stock",
     lowStockWarning = 5,
@@ -2081,6 +2083,8 @@ app.post("/api/admin/products", requireAdminAuth, async (req, res) => {
     offerPrice: Number(offerPrice) || 0,
     monthlyBuyerPrice: Number(monthlyBuyerPrice) || 0,
     monthlyOfferPrice: Number(monthlyOfferPrice) || 0,
+    weeklyAutoDiscount: Number(weeklyAutoDiscount) || 0,
+    monthlyAutoDiscount: Number(monthlyAutoDiscount) || 0,
     stock: Number(stock) || 0,
     stockStatus: String(stockStatus || "in_stock").trim(),
     lowStockWarning: Number(lowStockWarning) || 0,
@@ -2156,6 +2160,8 @@ app.put("/api/admin/products/:id", requireAdminAuth, async (req, res) => {
     offerPrice = 0,
     monthlyBuyerPrice = 0,
     monthlyOfferPrice = 0,
+    weeklyAutoDiscount = 0,
+    monthlyAutoDiscount = 0,
     stock = 0,
     stockStatus = "in_stock",
     lowStockWarning = 5,
@@ -2250,6 +2256,8 @@ app.put("/api/admin/products/:id", requireAdminAuth, async (req, res) => {
   product.offerPrice = Number(offerPrice) || 0;
   product.monthlyBuyerPrice = Number(monthlyBuyerPrice) || 0;
   product.monthlyOfferPrice = Number(monthlyOfferPrice) || 0;
+  product.weeklyAutoDiscount = Number(weeklyAutoDiscount) || 0;
+  product.monthlyAutoDiscount = Number(monthlyAutoDiscount) || 0;
   product.stock = Number(stock) || 0;
   product.stockStatus = String(stockStatus || "in_stock").trim();
   product.lowStockWarning = Number(lowStockWarning) || 0;

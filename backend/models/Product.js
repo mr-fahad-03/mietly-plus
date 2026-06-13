@@ -95,6 +95,18 @@ const productSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    weeklyAutoDiscount: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+    monthlyAutoDiscount: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
     stock: {
       type: Number,
       default: 0,
