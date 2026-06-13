@@ -32,10 +32,17 @@ export function RentalProductCard({
 }: RentalProductCardProps) {
   const buyerPrice = product.buyerPrice || 0;
   const offerPrice = product.offerPrice || 0;
-  const hasOffer = buyerPrice > 0 && offerPrice > 0 && offerPrice < buyerPrice;
-  const discountPercent = hasOffer ? Math.round(((buyerPrice - offerPrice) / buyerPrice) * 100) : 0;
+  const monthlyBuyerPrice = product.monthlyBuyerPrice || 0;
+  const monthlyOfferPrice = product.monthlyOfferPrice || 0;
+  const monthlyHasOffer = monthlyBuyerPrice > 0 && monthlyOfferPrice > 0 && monthlyOfferPrice < monthlyBuyerPrice;
+  const hasWeeklyOffer = buyerPrice > 0 && offerPrice > 0 && offerPrice < buyerPrice;
+  // Prefer monthly pricing if available, fall back to weekly
+  const effectiveBuyerPrice = monthlyHasOffer ? monthlyBuyerPrice : (hasWeeklyOffer ? buyerPrice : 0);
+  const effectiveOfferPrice = monthlyHasOffer ? monthlyOfferPrice : (hasWeeklyOffer ? offerPrice : 0);
+  const hasOffer = effectiveBuyerPrice > 0 && effectiveOfferPrice > 0 && effectiveOfferPrice < effectiveBuyerPrice;
+  const discountPercent = hasOffer ? Math.round(((effectiveBuyerPrice - effectiveOfferPrice) / effectiveBuyerPrice) * 100) : 0;
   const shortDescription = stripHtml(product.shortDescriptionI18n?.en || product.shortDescription || "");
-  const effectivePrice = hasOffer ? offerPrice : buyerPrice > 0 ? buyerPrice : product.monthlyPrice;
+  const effectivePrice = hasOffer ? effectiveOfferPrice : (effectiveBuyerPrice > 0 ? effectiveBuyerPrice : product.monthlyPrice);
   const categoryName = product.category?.name?.en || "General";
   const offerBadge = discountPercent > 0 ? `${discountPercent}% Off` : "Special Offer";
 
@@ -101,7 +108,7 @@ export function RentalProductCard({
                 Rent EUR {formatAmount(effectivePrice)} / month
               </p>
               {hasOffer ? (
-                <p className="text-xs text-zinc-400 line-through md:text-sm">EUR {formatAmount(buyerPrice)}</p>
+                <p className="text-xs text-zinc-400 line-through md:text-sm">EUR {formatAmount(effectiveBuyerPrice)}</p>
               ) : (
                 <p className="text-xs text-zinc-400 line-through md:text-sm">EUR {formatAmount(effectivePrice + 50)}</p>
               )}

@@ -29,6 +29,8 @@ type ProductForm = {
   monthlyPrice: string;
   buyerPrice: string;
   offerPrice: string;
+  monthlyBuyerPrice: string;
+  monthlyOfferPrice: string;
   stock: string;
   stockStatus: "in_stock" | "low_stock" | "out_of_stock" | "preorder";
   lowStockWarning: string;
@@ -74,6 +76,8 @@ const initialForm: ProductForm = {
   monthlyPrice: "",
   buyerPrice: "",
   offerPrice: "",
+  monthlyBuyerPrice: "",
+  monthlyOfferPrice: "",
   stock: "0",
   stockStatus: "in_stock",
   lowStockWarning: "5",
@@ -143,6 +147,9 @@ export default function AdminEditProductPage() {
   const buyerPriceNumber = Number(form.buyerPrice || "0");
   const offerPriceNumber = Number(form.offerPrice || "0");
   const discountPercent = calculateDiscountPercent(buyerPriceNumber, offerPriceNumber);
+  const monthlyBuyerPriceNumber = Number(form.monthlyBuyerPrice || "0");
+  const monthlyOfferPriceNumber = Number(form.monthlyOfferPrice || "0");
+  const monthlyDiscountPercent = calculateDiscountPercent(monthlyBuyerPriceNumber, monthlyOfferPriceNumber);
 
   useEffect(() => {
     const token = localStorage.getItem("admin_token") || "";
@@ -177,6 +184,8 @@ export default function AdminEditProductPage() {
           monthlyPrice: String(product.monthlyPrice ?? ""),
           buyerPrice: String(product.buyerPrice ?? 0),
           offerPrice: String(product.offerPrice ?? 0),
+          monthlyBuyerPrice: String(product.monthlyBuyerPrice ?? 0),
+          monthlyOfferPrice: String(product.monthlyOfferPrice ?? 0),
           stock: String(product.stock ?? 0),
           stockStatus: product.stockStatus || "in_stock",
           lowStockWarning: String(product.lowStockWarning ?? 5),
@@ -265,6 +274,8 @@ export default function AdminEditProductPage() {
         monthlyPrice: Number(form.monthlyPrice),
         buyerPrice: Number(form.buyerPrice || "0"),
         offerPrice: Number(form.offerPrice || "0"),
+        monthlyBuyerPrice: Number(form.monthlyBuyerPrice || "0"),
+        monthlyOfferPrice: Number(form.monthlyOfferPrice || "0"),
         stock: Number(form.stock || "0"),
         stockStatus: form.stockStatus,
         lowStockWarning: Number(form.lowStockWarning || "5"),
@@ -363,16 +374,27 @@ export default function AdminEditProductPage() {
           </div>
           <div className="rounded-xl border border-lime-200 bg-lime-50/40 p-4">
             <p className="mb-3 font-semibold text-zinc-900">Pricing</p>
-            <div className="grid gap-4 md:grid-cols-4">
+            <p className="mb-2 text-xs font-medium text-zinc-600">Weekly Pricing</p>
+            <div className="grid gap-4 md:grid-cols-2">
               <label className="block"><span className="mb-1 block text-sm">Weekly Buyer Price (cut price)</span><input type="number" min="0" step="0.01" value={form.buyerPrice} onChange={(e)=>setForm((p)=>({...p,buyerPrice:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
               <label className="block"><span className="mb-1 block text-sm">Weekly Offer Price</span><input type="number" min="0" step="0.01" value={form.offerPrice} onChange={(e)=>setForm((p)=>({...p,offerPrice:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
-              <label className="block"><span className="mb-1 block text-sm">Monthly Rental Price</span><input type="number" step="0.01" value={form.monthlyPrice} onChange={(e)=>setForm((p)=>({...p,monthlyPrice:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
-              <label className="block"><span className="mb-1 block text-sm">Delivery Fee (EUR)</span><input type="number" min="0" step="0.01" value={form.deliveryFee} onChange={(e)=>setForm((p)=>({...p,deliveryFee:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
             </div>
             <div className="mt-3 inline-flex items-center rounded-full border border-lime-200 bg-white px-3 py-1 text-sm font-semibold text-lime-700">
-              Auto Discount: {discountPercent > 0 ? `-${discountPercent}%` : "0%"}
+              Weekly Auto Discount: {discountPercent > 0 ? `-${discountPercent}%` : "0%"}
             </div>
-            <p className="mt-2 text-xs text-zinc-500">Weekly mode uses Weekly Buyer/Offer prices. Monthly mode uses Monthly Rental Price.</p>
+            <p className="mt-3 mb-2 text-xs font-medium text-zinc-600">Monthly Pricing</p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <label className="block"><span className="mb-1 block text-sm">Monthly Buyer Price (cut price)</span><input type="number" min="0" step="0.01" value={form.monthlyBuyerPrice} onChange={(e)=>setForm((p)=>({...p,monthlyBuyerPrice:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
+              <label className="block"><span className="mb-1 block text-sm">Monthly Offer Price</span><input type="number" min="0" step="0.01" value={form.monthlyOfferPrice} onChange={(e)=>setForm((p)=>({...p,monthlyOfferPrice:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
+            </div>
+            <div className="mt-3 inline-flex items-center rounded-full border border-lime-200 bg-white px-3 py-1 text-sm font-semibold text-lime-700">
+              Monthly Auto Discount: {monthlyDiscountPercent > 0 ? `-${monthlyDiscountPercent}%` : "0%"}
+            </div>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <label className="block"><span className="mb-1 block text-sm">Monthly Rental Price (base)</span><input type="number" step="0.01" value={form.monthlyPrice} onChange={(e)=>setForm((p)=>({...p,monthlyPrice:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
+              <label className="block"><span className="mb-1 block text-sm">Delivery Fee (EUR)</span><input type="number" min="0" step="0.01" value={form.deliveryFee} onChange={(e)=>setForm((p)=>({...p,deliveryFee:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
+            </div>
+            <p className="mt-2 text-xs text-zinc-500">Weekly mode uses Weekly Buyer/Offer prices. Monthly mode uses Monthly Buyer/Offer prices.</p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">

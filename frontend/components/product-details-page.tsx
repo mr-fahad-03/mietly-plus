@@ -133,15 +133,22 @@ export default function ProductDetailsPage() {
   const weeklyBuyerPrice = product?.buyerPrice || 0;
   const weeklyOfferPrice = product?.offerPrice || 0;
   const weeklyHasOffer = weeklyBuyerPrice > 0 && weeklyOfferPrice > 0 && weeklyOfferPrice < weeklyBuyerPrice;
+  const monthlyBuyerPrice = product?.monthlyBuyerPrice || 0;
+  const monthlyOfferPrice = product?.monthlyOfferPrice || 0;
+  const monthlyHasOffer = monthlyBuyerPrice > 0 && monthlyOfferPrice > 0 && monthlyOfferPrice < monthlyBuyerPrice;
   const weeklyUnitPrice = weeklyHasOffer
     ? weeklyOfferPrice
     : weeklyBuyerPrice > 0
       ? weeklyBuyerPrice
       : product?.monthlyPrice || 0;
-  const monthlyUnitPrice = product?.monthlyPrice || weeklyUnitPrice;
+  const monthlyUnitPrice = monthlyHasOffer
+    ? monthlyOfferPrice
+    : monthlyBuyerPrice > 0
+      ? monthlyBuyerPrice
+      : product?.monthlyPrice || 0;
   const effectiveUnitPrice = rentalMode === "month" ? monthlyUnitPrice : weeklyUnitPrice;
-  const hasOffer = rentalMode === "week" && weeklyHasOffer;
-  const buyerPrice = rentalMode === "week" ? weeklyBuyerPrice : 0;
+  const hasOffer = rentalMode === "week" ? weeklyHasOffer : monthlyHasOffer;
+  const buyerPrice = rentalMode === "week" ? weeklyBuyerPrice : monthlyBuyerPrice;
   const multipliedOfferPrice = effectiveUnitPrice * activeDuration;
   const multipliedBuyerPrice = buyerPrice * activeDuration;
   const visibleSpecs = showAllSpecs ? product?.specifications || [] : (product?.specifications || []).slice(0, 3);

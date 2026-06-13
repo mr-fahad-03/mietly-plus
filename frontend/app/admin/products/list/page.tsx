@@ -74,7 +74,7 @@ export default function AdminProductsListPage() {
                 </div>
                 <p className="truncate text-xs text-zinc-500">{product.category?.name.en || "Uncategorized"}</p>
                 <p className="text-xs text-zinc-500">
-                  EUR {product.monthlyPrice}/month | {product.minimumRentalWeeks}-{product.maximumRentalWeeks} weeks | {product.minimumRentalMonths}-{product.maximumRentalMonths} months | stock {product.stock} ({product.stockStatus.replace("_", " ")})
+                  EUR {product.monthlyPrice}/month | Weekly: EUR {product.buyerPrice || 0} → EUR {product.offerPrice || 0} | Monthly: EUR {product.monthlyBuyerPrice || 0} → EUR {product.monthlyOfferPrice || 0} | {product.minimumRentalWeeks}-{product.maximumRentalWeeks} weeks | {product.minimumRentalMonths}-{product.maximumRentalMonths} months | stock {product.stock} ({product.stockStatus.replace("_", " ")})
                 </p>
                 <p className="text-xs text-zinc-500">
                   Deposit EUR {product.securityDeposit} | {product.refundable ? "refundable" : "non-refundable"} | {product.isActive ? "active" : "inactive"}

@@ -85,6 +85,16 @@ const productSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    monthlyBuyerPrice: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    monthlyOfferPrice: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     stock: {
       type: Number,
       default: 0,

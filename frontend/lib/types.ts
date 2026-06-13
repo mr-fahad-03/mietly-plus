@@ -92,6 +92,8 @@ export type Product = {
   monthlyPrice: number;
   buyerPrice: number;
   offerPrice: number;
+  monthlyBuyerPrice: number;
+  monthlyOfferPrice: number;
   stock: number;
   stockStatus: "in_stock" | "low_stock" | "out_of_stock" | "preorder";
   lowStockWarning: number;

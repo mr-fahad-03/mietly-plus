@@ -5,9 +5,9 @@ const { connectDatabase } = require("../db");
 const Admin = require("../models/Admin");
 
 async function run() {
-  const email = "asad@gmail.com";
-  const password = "asad1122";
-  const name = "Asad";
+  const email = "manobaig7171@gmail.com";
+  const password = "manobaig7171";
+  const name = "Admin";
 
   await connectDatabase();
 

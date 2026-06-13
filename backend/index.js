@@ -937,6 +937,8 @@ function mapProduct(product) {
     monthlyPrice: product.monthlyPrice,
     buyerPrice: product.buyerPrice || 0,
     offerPrice: product.offerPrice || 0,
+    monthlyBuyerPrice: product.monthlyBuyerPrice || 0,
+    monthlyOfferPrice: product.monthlyOfferPrice || 0,
     stock: product.stock || 0,
     stockStatus: product.stockStatus || "in_stock",
     lowStockWarning: product.lowStockWarning || 0,
@@ -1984,6 +1986,8 @@ app.post("/api/admin/products", requireAdminAuth, async (req, res) => {
     monthlyPrice,
     buyerPrice = 0,
     offerPrice = 0,
+    monthlyBuyerPrice = 0,
+    monthlyOfferPrice = 0,
     stock = 0,
     stockStatus = "in_stock",
     lowStockWarning = 5,
@@ -2075,6 +2079,8 @@ app.post("/api/admin/products", requireAdminAuth, async (req, res) => {
     monthlyPrice: Number(monthlyPrice),
     buyerPrice: Number(buyerPrice) || 0,
     offerPrice: Number(offerPrice) || 0,
+    monthlyBuyerPrice: Number(monthlyBuyerPrice) || 0,
+    monthlyOfferPrice: Number(monthlyOfferPrice) || 0,
     stock: Number(stock) || 0,
     stockStatus: String(stockStatus || "in_stock").trim(),
     lowStockWarning: Number(lowStockWarning) || 0,
@@ -2148,6 +2154,8 @@ app.put("/api/admin/products/:id", requireAdminAuth, async (req, res) => {
     monthlyPrice,
     buyerPrice = 0,
     offerPrice = 0,
+    monthlyBuyerPrice = 0,
+    monthlyOfferPrice = 0,
     stock = 0,
     stockStatus = "in_stock",
     lowStockWarning = 5,
@@ -2240,6 +2248,8 @@ app.put("/api/admin/products/:id", requireAdminAuth, async (req, res) => {
   product.monthlyPrice = Number(monthlyPrice);
   product.buyerPrice = Number(buyerPrice) || 0;
   product.offerPrice = Number(offerPrice) || 0;
+  product.monthlyBuyerPrice = Number(monthlyBuyerPrice) || 0;
+  product.monthlyOfferPrice = Number(monthlyOfferPrice) || 0;
   product.stock = Number(stock) || 0;
   product.stockStatus = String(stockStatus || "in_stock").trim();
   product.lowStockWarning = Number(lowStockWarning) || 0;
