@@ -129,12 +129,23 @@ function Toggle({
 export function CookieConsentPopup() {
   const { locale } = useSiteLocale("de");
   const text = useMemo(() => copy[locale], [locale]);
-  const initialConsent = useMemo(() => readStoredConsent(), []);
-  const [open, setOpen] = useState(() => !initialConsent);
+  const [open, setOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const [settingsMode, setSettingsMode] = useState(false);
-  const [functional, setFunctional] = useState(() => Boolean(initialConsent?.functional));
-  const [analytics, setAnalytics] = useState(() => Boolean(initialConsent?.analytics));
-  const [marketing, setMarketing] = useState(() => Boolean(initialConsent?.marketing));
+  const [functional, setFunctional] = useState(false);
+  const [analytics, setAnalytics] = useState(false);
+  const [marketing, setMarketing] = useState(false);
+
+  useEffect(() => {
+    const consent = readStoredConsent();
+    setFunctional(Boolean(consent?.functional));
+    setAnalytics(Boolean(consent?.analytics));
+    setMarketing(Boolean(consent?.marketing));
+    if (!consent) {
+      setOpen(true);
+    }
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -160,6 +171,8 @@ export function CookieConsentPopup() {
     if (active === 3) return text.summaryTwo;
     return `${active} ${text.summaryMany}`;
   }, [functional, analytics, marketing, text.summaryMany, text.summaryOne, text.summaryTwo]);
+
+  if (!hydrated) return null;
 
   const acceptAll = () => {
     const consent: CookieConsent = {

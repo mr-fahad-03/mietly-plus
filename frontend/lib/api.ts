@@ -663,7 +663,7 @@ export async function fetchPublicBanners(params?: { device?: "desktop" | "mobile
   if (params?.position) query.set("position", params.position);
   const suffix = query.toString() ? `?${query.toString()}` : "";
 
-  const response = await fetch(`${API_BASE_URL}/api/banners${suffix}`, {
+  const response = await fetchWithPortFallback(`/api/banners${suffix}`, {
     cache: "no-store",
   });
 
