@@ -1648,12 +1648,14 @@ app.get("/api/banners", async (req, res) => {
   const device = String(req.query.device || "").trim().toLowerCase();
   const position = String(req.query.position || "home").trim().toLowerCase();
 
+  const endOfLocalDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
   const query = {
     isActive: true,
     position,
     ...(device ? { device } : {}),
     $and: [
-      { $or: [{ validFrom: null }, { validFrom: { $lte: now } }] },
+      { $or: [{ validFrom: null }, { validFrom: { $lte: endOfLocalDay } }] },
       { $or: [{ validUntil: null }, { validUntil: { $gte: now } }] },
     ],
   };
@@ -1701,8 +1703,8 @@ app.post("/api/admin/banners", requireAdminAuth, async (req, res) => {
     position: String(position).trim().toLowerCase(),
     device: String(device).trim().toLowerCase(),
     sortOrder: Number(sortOrder) || 0,
-    validFrom: validFrom ? new Date(validFrom) : null,
-    validUntil: validUntil ? new Date(validUntil) : null,
+    validFrom: validFrom ? new Date(validFrom + "T00:00:00") : null,
+    validUntil: validUntil ? new Date(validUntil + "T00:00:00") : null,
     isActive: Boolean(isActive),
   });
 
@@ -1747,8 +1749,8 @@ app.put("/api/admin/banners/:id", requireAdminAuth, async (req, res) => {
   banner.position = String(position).trim().toLowerCase();
   banner.device = String(device).trim().toLowerCase();
   banner.sortOrder = Number(sortOrder) || 0;
-  banner.validFrom = validFrom ? new Date(validFrom) : null;
-  banner.validUntil = validUntil ? new Date(validUntil) : null;
+  banner.validFrom = validFrom ? new Date(validFrom + "T00:00:00") : null;
+  banner.validUntil = validUntil ? new Date(validUntil + "T00:00:00") : null;
   banner.isActive = Boolean(isActive);
   await banner.save();
 
