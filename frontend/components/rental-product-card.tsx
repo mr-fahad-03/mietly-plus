@@ -34,15 +34,29 @@ export function RentalProductCard({
   const offerPrice = product.offerPrice || 0;
   const monthlyBuyerPrice = product.monthlyBuyerPrice || 0;
   const monthlyOfferPrice = product.monthlyOfferPrice || 0;
+  const monthlyPrice = product.monthlyPrice || 0;
+
   const monthlyHasOffer = monthlyBuyerPrice > 0 && monthlyOfferPrice > 0 && monthlyOfferPrice < monthlyBuyerPrice;
   const hasWeeklyOffer = buyerPrice > 0 && offerPrice > 0 && offerPrice < buyerPrice;
-  // Prefer monthly pricing if available, fall back to weekly
-  const effectiveBuyerPrice = monthlyHasOffer ? monthlyBuyerPrice : (hasWeeklyOffer ? buyerPrice : 0);
-  const effectiveOfferPrice = monthlyHasOffer ? monthlyOfferPrice : (hasWeeklyOffer ? offerPrice : 0);
-  const hasOffer = effectiveBuyerPrice > 0 && effectiveOfferPrice > 0 && effectiveOfferPrice < effectiveBuyerPrice;
+
+  const useMonthly = monthlyBuyerPrice > 0 || monthlyOfferPrice > 0 || monthlyPrice > 0;
+
+  const effectiveBuyerPrice = useMonthly ? monthlyBuyerPrice : buyerPrice;
+  const effectiveOfferPrice = useMonthly ? monthlyOfferPrice : offerPrice;
+  const hasOffer = useMonthly ? monthlyHasOffer : hasWeeklyOffer;
   const discountPercent = hasOffer ? Math.round(((effectiveBuyerPrice - effectiveOfferPrice) / effectiveBuyerPrice) * 100) : 0;
   const shortDescription = stripHtml(product.shortDescriptionI18n?.en || product.shortDescription || "");
-  const effectivePrice = hasOffer ? effectiveOfferPrice : (effectiveBuyerPrice > 0 ? effectiveBuyerPrice : product.monthlyPrice);
+
+  let effectivePrice: number;
+  if (hasOffer) {
+    effectivePrice = effectiveOfferPrice;
+  } else if (useMonthly) {
+    effectivePrice = effectiveBuyerPrice > 0 ? effectiveBuyerPrice : monthlyPrice;
+  } else {
+    effectivePrice = effectiveBuyerPrice > 0 ? effectiveBuyerPrice : 0;
+  }
+
+  const priceUnit = useMonthly ? "/ month" : "/ week";
   const categoryName = product.category?.name?.en || "General";
   const offerBadge = discountPercent > 0 ? `${discountPercent}% Off` : "Special Offer";
 
@@ -96,7 +110,7 @@ export function RentalProductCard({
             </h3>
 
             <p className="line-clamp-2 min-h-[2.25rem] text-[12px] leading-4 text-zinc-600 md:min-h-[2.5rem] md:text-[13px] md:leading-5">
-              {shortDescription || "Flexible monthly rental with trusted quality checks."}
+              {shortDescription || "Flexible rental with trusted quality checks."}
             </p>
 
             <p className="line-clamp-1 text-[12px] text-zinc-700 md:text-[13px]">
@@ -105,13 +119,13 @@ export function RentalProductCard({
 
             <div className="space-y-0.5 md:space-y-1">
               <p className="text-lg font-extrabold leading-none text-[rgb(60,138,158)] md:text-xl">
-                Rent EUR {formatAmount(effectivePrice)} / month
+                Rent EUR {formatAmount(effectivePrice)} {priceUnit}
               </p>
               {hasOffer ? (
                 <p className="text-xs text-zinc-400 line-through md:text-sm">EUR {formatAmount(effectiveBuyerPrice)}</p>
-              ) : (
+              ) : useMonthly ? (
                 <p className="text-xs text-zinc-400 line-through md:text-sm">EUR {formatAmount(effectivePrice + 50)}</p>
-              )}
+              ) : null}
               <p className="text-[11px] font-medium text-zinc-500 md:text-xs">*Inclusive VAT</p>
             </div>
           </div>
