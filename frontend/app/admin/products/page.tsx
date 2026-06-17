@@ -132,6 +132,8 @@ export default function AdminAddProductsPage() {
   const [form, setForm] = useState<ProductForm>(initialForm);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [coverIndex, setCoverIndex] = useState<number>(0);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const buyerPriceNumber = Number(form.buyerPrice || "0");
@@ -153,20 +155,38 @@ export default function AdminAddProductsPage() {
       .catch(() => setError("Could not fetch categories/brands."));
   }, []);
 
-  const onUploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file || !adminToken) return;
+  const onFilesChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (!files.length || !adminToken) return;
+
+    if (files.length + uploadedImages.length > 15) {
+      setError("You can upload a maximum of 15 images in total.");
+      return;
+    }
+
     setUploading(true);
     setMessage("");
     setError("");
     try {
-      const imageUrl = await uploadProductImage(file, adminToken);
-      setForm((prev) => ({ ...prev, imageUrl }));
-      setMessage("Product image uploaded.");
+      const newUrls = await Promise.all(
+        files.map((file) => uploadProductImage(file, adminToken))
+      );
+      setUploadedImages((prev) => [...prev, ...newUrls]);
+      setMessage("Images uploaded.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not upload image.");
+      setError(err instanceof Error ? err.message : "Could not upload images.");
     } finally {
       setUploading(false);
+      event.target.value = "";
+    }
+  };
+
+  const removeImage = (indexToRemove: number) => {
+    setUploadedImages((prev) => prev.filter((_, i) => i !== indexToRemove));
+    if (coverIndex === indexToRemove) {
+      setCoverIndex(0);
+    } else if (coverIndex > indexToRemove) {
+      setCoverIndex((prev) => prev - 1);
     }
   };
 
@@ -199,8 +219,8 @@ export default function AdminAddProductsPage() {
         descriptionI18n: { en: form.descriptionEn, de: form.descriptionDe },
         shortDescription: form.shortDescriptionEn,
         shortDescriptionI18n: { en: form.shortDescriptionEn, de: form.shortDescriptionDe },
-        imageUrl: form.imageUrl.trim(),
-        galleryImages: parseCommaList(form.galleryImagesText),
+        imageUrl: uploadedImages.length > 0 ? uploadedImages[coverIndex] : form.imageUrl.trim(),
+        galleryImages: [...uploadedImages.filter((_, idx) => idx !== coverIndex), ...parseCommaList(form.galleryImagesText)],
         sku: form.sku.trim(),
         brandId: form.brandId,
         tags: parseCommaList(form.tagsText),
@@ -244,6 +264,8 @@ export default function AdminAddProductsPage() {
       });
       setMessage("Rental product created successfully.");
       setForm(initialForm);
+      setUploadedImages([]);
+      setCoverIndex(0);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not create product.");
     } finally {
@@ -302,13 +324,42 @@ export default function AdminAddProductsPage() {
               />
             </div>
             <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-600">
-              Main image will be set from upload. {form.imageUrl ? "Uploaded." : "Not uploaded yet."}
+              Images will be set from upload. {uploadedImages.length > 0 ? `${uploadedImages.length} image(s) set.` : "Not uploaded yet."}
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="block"><span className="mb-1 block text-sm">Upload Main Image</span><input type="file" accept="image/*" onChange={onUploadImage} className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-lime-500 file:px-3 file:py-1 file:text-white"/>{uploading ? <p className="mt-1 text-xs text-zinc-500">Uploading...</p> : null}</label>
-            <label className="block"><span className="mb-1 block text-sm">Gallery URLs (comma-separated)</span><input value={form.galleryImagesText} onChange={(e)=>setForm((p)=>({...p,galleryImagesText:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
+          <div className="grid gap-4 md:grid-cols-1">
+            <label className="block"><span className="mb-1 block text-sm">Upload Images (Max 15)</span><input type="file" multiple accept="image/*" onChange={onFilesChange} className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-lime-500 file:px-3 file:py-1 file:text-white"/>{uploading ? <p className="mt-1 text-xs text-zinc-500">Uploading...</p> : null}</label>
+            
+            {uploadedImages.length > 0 && (
+              <div className="mt-2">
+                <span className="mb-2 block text-sm font-medium text-zinc-700">Click on an image to select it as the Cover Photo:</span>
+                <div className="flex flex-wrap gap-4">
+                  {uploadedImages.map((url, index) => (
+                    <div 
+                      key={index} 
+                      onClick={() => setCoverIndex(index)}
+                      className={`relative cursor-pointer rounded-lg border-4 overflow-hidden w-24 h-24 sm:w-32 sm:h-32 transition-all ${index === coverIndex ? 'border-lime-500 shadow-md scale-105' : 'border-transparent opacity-80 hover:opacity-100'}`}
+                    >
+                      <img src={url} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+                      {index === coverIndex && (
+                        <div className="absolute top-0 left-0 w-full bg-lime-500 text-white text-[10px] font-bold text-center py-0.5">COVER</div>
+                      )}
+                      <button 
+                        type="button" 
+                        onClick={(e) => { e.stopPropagation(); removeImage(index); }}
+                        className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow hover:bg-red-600 transition"
+                        title="Remove image"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <label className="block mt-2"><span className="mb-1 block text-sm">Additional Gallery URLs (comma-separated, optional)</span><input value={form.galleryImagesText} onChange={(e)=>setForm((p)=>({...p,galleryImagesText:e.target.value}))} className="w-full rounded-lg border border-zinc-300 px-3 py-2"/></label>
           </div>
 
           <div className="rounded-xl border border-lime-200 bg-lime-50/40 p-4">
