@@ -1,15 +1,16 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { RefObject, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import { fetchCategoryTree, getCurrentUser } from "@/lib/api";
+import { fetchCategoryTree, getCurrentUser, fetchPublicProducts } from "@/lib/api";
 import { getCartCount, subscribeCartChange } from "@/lib/cart";
 import { FALLBACK_CATEGORIES } from "@/lib/constants";
 import { useSiteLocale } from "@/lib/use-site-locale";
 import { useWishlist } from "@/lib/use-wishlist";
-import { Category, Locale } from "@/lib/types";
+import { Category, Locale, Product } from "@/lib/types";
+import { buildProductPath } from "@/lib/product-path";
 
 const copy = {
   en: {
@@ -239,9 +240,14 @@ export function ClientNavbar() {
   const { productIds: wishlistIds } = useWishlist();
   const languageRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const searchContainerRef = useRef<HTMLFormElement>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useOutsideClose(languageRef, () => setLanguageOpen(false));
   useOutsideClose(profileRef, () => setProfileOpen(false));
+  useOutsideClose(searchContainerRef, () => setIsSearchFocused(false));
 
   useEffect(() => {
     document.body.classList.add("has-mobile-bottom-nav");
@@ -252,6 +258,8 @@ export function ClientNavbar() {
     fetchCategoryTree().then((data) => {
       setCategories(data);
     });
+
+    fetchPublicProducts().then(setProducts).catch(console.error);
 
     const token = localStorage.getItem("user_token");
     if (token) {
@@ -271,11 +279,49 @@ export function ClientNavbar() {
     [categories]
   );
 
+  const searchSuggestions = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const terms = searchQuery.toLowerCase().split(/\s+/).filter(Boolean);
+    return products.filter((p) => {
+      const titleEn = p.titleI18n?.en?.toLowerCase() || p.title?.toLowerCase() || "";
+      const titleDe = p.titleI18n?.de?.toLowerCase() || "";
+      const brandStr = p.brand?.toLowerCase() || "";
+      const catEn = p.category?.name?.en?.toLowerCase() || "";
+      const catDe = p.category?.name?.de?.toLowerCase() || "";
+
+      return terms.every(term => 
+        titleEn.includes(term) || titleDe.includes(term) || brandStr.includes(term) || catEn.includes(term) || catDe.includes(term)
+      );
+    }).map(p => {
+      const titleEn = p.titleI18n?.en || p.title || "";
+      const titleDe = p.titleI18n?.de || "";
+      const titleEnLower = titleEn.toLowerCase();
+      const titleDeLower = titleDe.toLowerCase();
+      
+      let matchedLang = locale;
+      const matchedEn = terms.some(t => titleEnLower.includes(t));
+      const matchedDe = terms.some(t => titleDeLower.includes(t));
+      if (matchedEn && !matchedDe) matchedLang = "en";
+      if (matchedDe && !matchedEn) matchedLang = "de";
+
+      return { ...p, displayTitle: matchedLang === "en" ? titleEn : (titleDe || titleEn) };
+    }).slice(0, 5);
+  }, [searchQuery, products, locale]);
+
   const onUserLogout = () => {
     localStorage.removeItem("user_token");
     setCurrentUser(null);
     setProfileOpen(false);
     router.push("/");
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push(`/shop`);
+    }
   };
 
   return (
@@ -288,13 +334,45 @@ export function ClientNavbar() {
           <Image src="/logo.png" alt="Leihfluss logo" width={120} height={40} priority />
         </Link>
 
-        <div className="hidden flex-1 items-center rounded-full border border-[rgba(73,153,173,0.35)] bg-white px-4 py-3 text-[rgb(73,153,173)] md:flex">
-          <SearchIcon />
+        <form 
+          ref={searchContainerRef}
+          onSubmit={handleSearch} 
+          className="relative hidden flex-1 items-center rounded-full border border-[rgba(73,153,173,0.35)] bg-white px-4 py-3 text-[rgb(73,153,173)] md:flex"
+        >
+          <button type="submit" aria-label="Search" className="flex items-center justify-center outline-none">
+            <SearchIcon />
+          </button>
           <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
             placeholder={copy[locale].search}
             className="ml-3 w-full bg-transparent text-lg outline-none"
           />
-        </div>
+          {isSearchFocused && searchSuggestions.length > 0 && (
+            <div className="absolute left-0 right-0 top-full mt-2 z-50 overflow-hidden rounded-xl border border-[rgba(73,153,173,0.22)] bg-white shadow-xl">
+              {searchSuggestions.map((product) => (
+                <Link
+                  key={product.id}
+                  href={buildProductPath({ categorySlug: product.category?.slug, productSlug: product.slug })}
+                  onClick={() => {
+                    setIsSearchFocused(false);
+                    setSearchQuery("");
+                  }}
+                  className="flex items-center gap-3 px-4 py-3 transition hover:bg-[rgba(73,153,173,0.10)]"
+                >
+                  {product.imageUrl && (
+                    <Image src={product.imageUrl} alt={product.title} width={40} height={40} className="rounded-md object-cover h-10 w-10" />
+                  )}
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-zinc-900">{product.displayTitle}</span>
+                    <span className="text-xs text-zinc-500">{product.brand}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </form>
 
         <nav className="ml-auto flex items-center gap-3 text-sm font-semibold text-[rgb(60,138,158)] lg:gap-5">
           <div className="relative" ref={languageRef}>

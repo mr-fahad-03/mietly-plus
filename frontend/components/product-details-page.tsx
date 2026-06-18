@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
@@ -129,6 +129,9 @@ export default function ProductDetailsPage() {
   const durationRange = useMemo(() => (product ? getDurationRange(product, rentalMode) : null), [product, rentalMode]);
   const minDeliveryDate = useMemo(() => toDateInputValue(addDays(new Date(), 2)), []);
 
+  const title = product?.titleI18n?.[locale] || product?.title || "";
+  const description = product?.descriptionI18n?.[locale] || product?.description || "";
+  
   const currentImage = images[activeImageIndex] || product?.imageUrl || "";
   const weeklyBuyerPrice = product?.buyerPrice || 0;
   const weeklyOfferPrice = product?.offerPrice || 0;
@@ -229,7 +232,7 @@ export default function ProductDetailsPage() {
                 {product.category?.name[locale] || "Category"}
               </Link>
               <span>&gt;</span>
-              <span className="font-semibold text-zinc-900">{product.title}</span>
+              <span className="font-semibold text-zinc-900">{title}</span>
             </div>
 
             <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
@@ -249,7 +252,7 @@ export default function ProductDetailsPage() {
                   ) : null}
 
                   {currentImage ? (
-                    <img src={currentImage} alt={product.title} className="h-full w-full object-contain" />
+                    <img src={currentImage} alt={title} className="h-full w-full object-contain" />
                   ) : null}
 
                   {images.length > 1 ? (
@@ -278,7 +281,7 @@ export default function ProductDetailsPage() {
                           : "border-zinc-200 hover:border-[rgba(73,153,173,0.35)]"
                       }`}
                     >
-                      <img src={image} alt={`${product.title} ${index + 1}`} className="h-full w-full object-cover" />
+                      <img src={image} alt={`${title} ${index + 1}`} className="h-full w-full object-cover" />
                     </button>
                   ))}
                 </div>
@@ -286,7 +289,7 @@ export default function ProductDetailsPage() {
 
               <div className="space-y-5">
                 <div className="rounded-3xl border border-[rgba(73,153,173,0.28)] bg-white p-5 shadow-[0_18px_45px_-32px_rgba(73,153,173,0.65)]">
-                  <h1 className="text-3xl font-extrabold text-zinc-900 md:text-[2.1rem]">{product.title}</h1>
+                  <h1 className="text-3xl font-extrabold text-zinc-900 md:text-[2.1rem]">{title}</h1>
 
                   <div className="mt-5">
                     <div className="flex items-center justify-between gap-3">
@@ -442,10 +445,10 @@ export default function ProductDetailsPage() {
               )}
             </section>
 
-            {product.description ? (
+            {description ? (
               <section className="mt-8 rounded-2xl border border-[rgba(73,153,173,0.24)] bg-white p-5 shadow-[0_16px_36px_-30px_rgba(73,153,173,0.55)]">
                 <h2 className="text-3xl font-extrabold text-zinc-900">Description</h2>
-                <div className="prose mt-4 max-w-none text-zinc-700" dangerouslySetInnerHTML={{ __html: product.description }} />
+                <div className="prose mt-4 max-w-none text-zinc-700" dangerouslySetInnerHTML={{ __html: description }} />
               </section>
             ) : null}
 

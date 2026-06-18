@@ -29,6 +29,7 @@ function ShopPageContent() {
   const PRODUCTS_PER_BATCH = 9;
   const searchParams = useSearchParams();
   const categoryFromQuery = (searchParams.get("category") || "").trim();
+  const searchQuery = (searchParams.get("search") || "").trim().toLowerCase();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -127,9 +128,25 @@ function ShopPageContent() {
       if (stockFilter === "in_stock" && product.stock <= 0) return false;
       if (stockFilter === "out_of_stock" && product.stock > 0) return false;
 
+      if (searchQuery) {
+        const terms = searchQuery.split(/\s+/).filter(Boolean);
+        const titleEn = product.titleI18n?.en?.toLowerCase() || product.title?.toLowerCase() || "";
+        const titleDe = product.titleI18n?.de?.toLowerCase() || "";
+        const brandStr = product.brand?.toLowerCase() || "";
+        const catEn = product.category?.name?.en?.toLowerCase() || "";
+        const catDe = product.category?.name?.de?.toLowerCase() || "";
+        
+        const matches = terms.every(term => 
+          titleEn.includes(term) || titleDe.includes(term) || brandStr.includes(term) || catEn.includes(term) || catDe.includes(term)
+        );
+        if (!matches) {
+          return false;
+        }
+      }
+
       return true;
     });
-  }, [products, appliedMin, appliedMax, categorySlugSet, selectedBrands, stockFilter]);
+  }, [products, appliedMin, appliedMax, categorySlugSet, selectedBrands, stockFilter, searchQuery]);
 
   const visibleProducts = useMemo(
     () => filteredProducts.slice(0, visibleCount),
@@ -138,7 +155,7 @@ function ShopPageContent() {
 
   useEffect(() => {
     setVisibleCount(PRODUCTS_PER_BATCH);
-  }, [appliedMin, appliedMax, selectedCategorySlug, selectedBrands, stockFilter, categoryFromQuery]);
+  }, [appliedMin, appliedMax, selectedCategorySlug, selectedBrands, stockFilter, categoryFromQuery, searchQuery]);
 
   const activeFilters = useMemo(() => {
     const chips: string[] = [];

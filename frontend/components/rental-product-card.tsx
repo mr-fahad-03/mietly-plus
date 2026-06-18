@@ -1,7 +1,8 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { buildProductPath } from "@/lib/product-path";
+import { useSiteLocale } from "@/lib/use-site-locale";
 import { Product } from "@/lib/types";
 
 type RentalProductCardProps = {
@@ -30,6 +31,7 @@ export function RentalProductCard({
   wishlistActive = false,
   onToggleWishlist,
 }: RentalProductCardProps) {
+  const { locale } = useSiteLocale("de");
   const buyerPrice = product.buyerPrice || 0;
   const offerPrice = product.offerPrice || 0;
   const monthlyBuyerPrice = product.monthlyBuyerPrice || 0;
@@ -57,7 +59,8 @@ export function RentalProductCard({
   }
 
   const priceUnit = useMonthly ? "/ month" : "/ week";
-  const categoryName = product.category?.name?.en || "General";
+  const title = product.titleI18n?.[locale] || product.title;
+  const categoryName = product.category?.name?.[locale] || product.category?.name?.en || "General";
   const offerBadge = discountPercent > 0 ? `${discountPercent}% Off` : "Special Offer";
 
   return (
@@ -106,7 +109,7 @@ export function RentalProductCard({
 
           <div className="mt-2.5 space-y-1.5 md:mt-4 md:space-y-2">
             <h3 className="line-clamp-2 text-base font-extrabold leading-5 text-zinc-900 group-hover:text-[rgb(73,153,173)] md:text-lg md:leading-6">
-              {product.title}
+              {title}
             </h3>
 
             <p className="line-clamp-2 min-h-[2.25rem] text-[12px] leading-4 text-zinc-600 md:min-h-[2.5rem] md:text-[13px] md:leading-5">
