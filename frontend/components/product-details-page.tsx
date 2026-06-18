@@ -100,7 +100,14 @@ export default function ProductDetailsPage() {
       .then(([currentProduct, allProducts]) => {
         setError("");
         setProduct(currentProduct);
-        const initialMode = currentProduct.rentalPeriodUnit === "month" ? "month" : "week";
+        const isWeekly = (currentProduct.buyerPrice || 0) > 0 || (currentProduct.offerPrice || 0) > 0;
+        const isMonthly = (currentProduct.monthlyBuyerPrice || 0) > 0 || (currentProduct.monthlyOfferPrice || 0) > 0 || (currentProduct.monthlyPrice || 0) > 0;
+        const showW = isWeekly || (!isWeekly && !isMonthly);
+        const showM = isMonthly || (!isWeekly && !isMonthly);
+
+        let initialMode: "week" | "month" = currentProduct.rentalPeriodUnit === "month" ? "month" : "week";
+        if (initialMode === "month" && !showM) initialMode = "week";
+        if (initialMode === "week" && !showW) initialMode = "month";
         const range = getDurationRange(currentProduct, initialMode);
         setRentalMode(initialMode);
         setActiveDuration(range.min);
@@ -152,6 +159,11 @@ export default function ProductDetailsPage() {
   const effectiveUnitPrice = rentalMode === "month" ? monthlyUnitPrice : weeklyUnitPrice;
   const hasOffer = rentalMode === "week" ? weeklyHasOffer : monthlyHasOffer;
   const buyerPrice = rentalMode === "week" ? weeklyBuyerPrice : monthlyBuyerPrice;
+
+  const isWeeklyAvailable = weeklyBuyerPrice > 0 || weeklyOfferPrice > 0;
+  const isMonthlyAvailable = monthlyBuyerPrice > 0 || monthlyOfferPrice > 0 || (product?.monthlyPrice || 0) > 0;
+  const showWeekly = isWeeklyAvailable || (!isWeeklyAvailable && !isMonthlyAvailable);
+  const showMonthly = isMonthlyAvailable || (!isWeeklyAvailable && !isMonthlyAvailable);
   const multipliedOfferPrice = effectiveUnitPrice * activeDuration;
   const multipliedBuyerPrice = buyerPrice * activeDuration;
   const visibleSpecs = showAllSpecs ? product?.specifications || [] : (product?.specifications || []).slice(0, 3);
@@ -298,41 +310,45 @@ export default function ProductDetailsPage() {
                         {durationText(activeDuration, rentalMode)} selected
                       </span>
                     </div>
-                    <div className="mt-3 grid grid-cols-2 gap-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setRentalMode("week");
-                          if (product) {
-                            const range = getDurationRange(product, "week");
-                            setActiveDuration(range.min);
-                          }
-                        }}
-                        className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
-                          rentalMode === "week"
-                            ? "border-[rgb(73,153,173)] bg-[rgba(73,153,173,0.12)] text-[rgb(47,118,135)]"
-                            : "border-zinc-200 text-zinc-600 hover:border-[rgba(73,153,173,0.35)]"
-                        }`}
-                      >
-                        Rent by week
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setRentalMode("month");
-                          if (product) {
-                            const range = getDurationRange(product, "month");
-                            setActiveDuration(range.min);
-                          }
-                        }}
-                        className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
-                          rentalMode === "month"
-                            ? "border-[rgb(73,153,173)] bg-[rgba(73,153,173,0.12)] text-[rgb(47,118,135)]"
-                            : "border-zinc-200 text-zinc-600 hover:border-[rgba(73,153,173,0.35)]"
-                        }`}
-                      >
-                        Rent by month
-                      </button>
+                    <div className={`mt-3 grid gap-2 ${showWeekly && showMonthly ? "grid-cols-2" : "grid-cols-1"}`}>
+                      {showWeekly && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setRentalMode("week");
+                            if (product) {
+                              const range = getDurationRange(product, "week");
+                              setActiveDuration(range.min);
+                            }
+                          }}
+                          className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
+                            rentalMode === "week"
+                              ? "border-[rgb(73,153,173)] bg-[rgba(73,153,173,0.12)] text-[rgb(47,118,135)]"
+                              : "border-zinc-200 text-zinc-600 hover:border-[rgba(73,153,173,0.35)]"
+                          }`}
+                        >
+                          Rent by week
+                        </button>
+                      )}
+                      {showMonthly && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setRentalMode("month");
+                            if (product) {
+                              const range = getDurationRange(product, "month");
+                              setActiveDuration(range.min);
+                            }
+                          }}
+                          className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
+                            rentalMode === "month"
+                              ? "border-[rgb(73,153,173)] bg-[rgba(73,153,173,0.12)] text-[rgb(47,118,135)]"
+                              : "border-zinc-200 text-zinc-600 hover:border-[rgba(73,153,173,0.35)]"
+                          }`}
+                        >
+                          Rent by month
+                        </button>
+                      )}
                     </div>
                     <div className="mt-3 rounded-2xl border border-[rgba(73,153,173,0.22)] bg-[linear-gradient(165deg,rgba(73,153,173,0.1),rgba(73,153,173,0.04)_52%,#ffffff_100%)] p-4">
                       <input
