@@ -48,7 +48,7 @@ type CurrentUser = {
   phone?: string | null;
 };
 
-function useOutsideClose(ref: RefObject<HTMLDivElement | null>, onClose: () => void) {
+function useOutsideClose(ref: RefObject<HTMLElement | null>, onClose: () => void) {
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
       if (!ref.current) return;
